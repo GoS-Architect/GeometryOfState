@@ -1,5 +1,3 @@
-Lean 4 code:
-
 import Mathlib.LinearAlgebra.CliffordAlgebra.Basic
 import Mathlib.LinearAlgebra.QuadraticForm.Basic
 
