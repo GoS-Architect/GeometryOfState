@@ -1,9 +1,9 @@
 /-
   ==============================================================================
-  THE GEOMETRY OF STATE — v2
+  THE GEOMETRY OF STATE
   ==============================================================================
   Author: Adrian Domingo
-  Date: March 13, 2026
+  Date: March 10, 2026
 
   A formally verified framework for topological matter, built from
   Clifford algebra first principles.
@@ -17,24 +17,12 @@
     §6  Majorana edge modes — bulk-boundary correspondence (VERIFIED by rfl)
     §7  Cl(3,0) — full 3D algebra, filaments, knot type
     §8  Topological lock — energy barrier protects discrete invariant
-    §9  Protection hierarchy — dimensionality determines protection level
-    §10 MHD fusion — same algebra, magnetic bivectors, Taylor relaxation
-    §11 Axiom accounting
-
-  CHANGES v1 → v2:
-    • MHD section (§10) strengthened with new types, four validated simulation
-      regimes, and rfl/decide proofs for confinement classification
-    • Simulation numbers updated to reflect latest runs (4.4× at η=0.005)
-    • Shared definitions (KitaevParams, gap, winding) aligned with
-      TopologicalBridge v2 for eventual unification
-    • ProtectionLevel gains DecidableEq → enables decide proofs
-    • New proved theorems: stellarator_is_topological, tokamak_is_unprotected,
-      confinement_types_differ, selective_dissipation checks
 
   AXIOM ACCOUNTING:
     0 inconsistent axioms (ConservationOfInformation REMOVED)
     0 sorry in any theorem about finite structures
     2 honest axioms marked PHYSICS (empirical input)
+    2 honest sorries marked ANALYSIS (require real number theory)
 
   VERIFICATION: lake build
   ==============================================================================
@@ -146,12 +134,6 @@ end Rotor
 class IsNonzero (x : Float) : Prop where
   proof : x ≠ 0.0
 
--- ┌──────────────────────────────────────────────────────────────┐
--- │ SHARED DEFINITIONS — identical in GeometryOfState.lean and   │
--- │ TopologicalBridge.lean. These form the interface between      │
--- │ the computational and logical pillars.                        │
--- └──────────────────────────────────────────────────────────────┘
-
 /-- The squared magnitude of a bivector (grade-2 element of Cl(2,0)). -/
 def bivectorMagSq (h1 h2 : Float) : Float :=
   h1 * h1 + h2 * h2
@@ -189,10 +171,6 @@ theorem gapless_blocks_inversion
 
 private def pi : Float := 3.14159265358979323846
 
--- ┌──────────────────────────────────────────────────────────────┐
--- │ SHARED: KitaevParams — identical in both files               │
--- └──────────────────────────────────────────────────────────────┘
-
 /-- Parameters of the 1D Kitaev chain. -/
 structure KitaevParams where
   μ : Float    -- chemical potential
@@ -220,10 +198,6 @@ def KitaevParams.hamiltonianCl2 (p : KitaevParams) (k : Float) : Cl2 :=
 -- It is an INTEGER because the curve is closed.
 -- It CANNOT CHANGE without the gap closing.
 -- The integer is DERIVED from the Clifford algebra, not assumed.
-
--- ┌──────────────────────────────────────────────────────────────┐
--- │ SHARED: windingNumber — identical in both files              │
--- └──────────────────────────────────────────────────────────────┘
 
 /-- Compute the winding number by integrating dθ/dk around the Brillouin zone. -/
 def windingNumber (p : KitaevParams) (n : Nat := 10000) : Float := Id.run do
@@ -508,7 +482,7 @@ inductive ProtectionLevel where
   | unprotected   -- 2D, no pinning: vortex points migrate freely
   | energetic     -- 2D + pinning: conditional on energy < barrier
   | topological   -- 3D + knotting: discrete invariant + energy gap
-deriving Repr, DecidableEq
+deriving Repr
 
 instance : ToString ProtectionLevel where
   toString
@@ -523,19 +497,6 @@ def protectionLevel (dim : Nat) (is_knotted : Bool) (has_pinning : Bool) : Prote
   if dim ≥ 3 && is_knotted then .topological
   else if has_pinning then .energetic
   else .unprotected
-
--- ┌──────────────────────────────────────────────────────────┐
--- │ PROVED: Protection level distinctions (by decide)        │
--- └──────────────────────────────────────────────────────────┘
-
-theorem topological_ne_unprotected :
-    ProtectionLevel.topological ≠ ProtectionLevel.unprotected := by decide
-
-theorem topological_ne_energetic :
-    ProtectionLevel.topological ≠ ProtectionLevel.energetic := by decide
-
-theorem energetic_ne_unprotected :
-    ProtectionLevel.energetic ≠ ProtectionLevel.unprotected := by decide
 
 
 -- ════════════════════════════════════════════════════════════════
@@ -589,21 +550,6 @@ def bivectorProduct (B1 B2 : MagneticBivector) : Rotor3D :=
     b23 := B1.b31*B2.b12 - B1.b12*B2.b31
     b31 := B1.b12*B2.b23 - B1.b23*B2.b12 }
 
-/-- Helicity integrand: the scalar A·B at a point.
-    In Cl(3,0): A is a vector, B is a bivector. The geometric product
-    AB has a pseudoscalar part which is the helicity density.
-    The integral ∫A·B dV is the total magnetic helicity. -/
-structure HelicityIntegrand where
-  a_dot_b : Float
-deriving Repr
-
-/-- A Fourier mode for spectral decomposition.
-    Each mode decays as exp(-ηk²t) under resistive diffusion. -/
-structure SpectralMode where
-  k_magnitude : Float   -- |k|
-  amplitude   : Float   -- |B̂(k)|
-deriving Repr
-
 /-- Force-free condition: ∇×B = λB (Beltrami field).
     In GA: the curl of B is proportional to B itself.
     The current J = ∇×B is PARALLEL to B everywhere.
@@ -622,29 +568,6 @@ def isForceFreeBeltrami (B J : MagneticBivector) (lam : Float) : Bool :=
   Float.abs (J.b12 - lam * B.b12) < tol &&
   Float.abs (J.b23 - lam * B.b23) < tol &&
   Float.abs (J.b31 - lam * B.b31) < tol
-
-/-- Resistive decay factor for a single Fourier mode. -/
-def resistiveDecay (η : Float) (k_squared : Float) (t : Float) : Float :=
-  Float.exp (-η * k_squared * t)
-
-/-- Decay comparison between two spectral modes at given η, t.
-    Returns the ratio: how many times faster the high-k mode decays. -/
-def SpectralMode.decayRatio (low high : SpectralMode) (η t : Float) : Float :=
-  let d_low := resistiveDecay η (low.k_magnitude * low.k_magnitude) t
-  let d_high := resistiveDecay η (high.k_magnitude * high.k_magnitude) t
-  d_low / (d_high + 1e-30)
-
-/-- Demonstrate selective dissipation: compare decay at low-k vs high-k.
-    Low-k modes (helicity carriers) decay slowly.
-    High-k modes (energy carriers) decay fast.
-    The RATIO between them grows with time. -/
-def selectiveDissipation (η : Float) (t : Float) : Float × Float × Float :=
-  let k_low := 1.0       -- fundamental mode (carries most helicity)
-  let k_high := 10.0     -- high harmonic (carries excess energy)
-  let decay_low := resistiveDecay η (k_low * k_low) t
-  let decay_high := resistiveDecay η (k_high * k_high) t
-  let ratio := decay_low / (decay_high + 1e-30)
-  (decay_low, decay_high, ratio)
 
 /- Taylor Relaxation: the key theorem for fusion.
 
@@ -667,88 +590,32 @@ def selectiveDissipation (η : Float) (t : Float) : Float × Float × Float :=
       GP:  sheds kinetic energy, preserves vortex topology
       MHD: sheds magnetic energy, preserves magnetic helicity
 
-    The simulation (stellarator_taylor_relaxation.py) confirms
-    on a 48³ grid over 800 steps (t=0→4, dt=0.005):
-
-      Pure ABC (exact Beltrami, η=0.005):
-        H and E decay identically (ratio 1.0×) — no selective dissipation
-        FF error = 0.0000 throughout — eigenmode is exact
-
-      Perturbed ABC (ABC + noise, η=0.005):
-        Helicity retained: ~96.1%
-        Energy retained:   ~82.6%
-        Dissipation ratio: energy decays ~4.4× faster
-        FF error: 8.73 → 0.21 (relaxing toward Beltrami)
-
-      Perturbed ABC (η=0.001, longer preservation):
-        Helicity retained: ~99.2%
-        Energy retained:   ~86.2%
-        Dissipation ratio: energy decays ~17.3× faster
-
-      High-k perturbation (small-scale noise, η=0.005):
-        Helicity retained: ~96.1%
-        Energy retained:   ~90.7%
-        Dissipation ratio: energy decays ~2.4× faster
-
-    Key observations:
-      • Pure Beltrami fields show NO selective dissipation (all modes at k=1)
-      • Perturbed fields show strong selective dissipation
-      • Lower η → higher ratio (more scale separation before decay)
-      • FF error drops monotonically → system relaxes toward force-free state
+    The simulation (stellarator_taylor_relaxation.py) confirms:
+      Perturbed ABC at η=0.005:
+        Helicity retained: ~78%
+        Energy retained:   ~51%
+        Dissipation ratio: energy decays ~2.5× faster
 
     THIS IS THE FUSION RESULT: a stellarator plasma with knotted
     magnetic field lines will relax to a force-free equilibrium
     while preserving its helicity (topology). The 3D geometry
     provides the topological protection that tokamaks lack. -/
 
+/-- Resistive decay factor for a single Fourier mode. -/
+def resistiveDecay (η : Float) (k_squared : Float) (t : Float) : Float :=
+  Float.exp (-η * k_squared * t)
 
--- ┌──────────────────────────────────────────────────────────────┐
--- │ v2: SIMULATION-VALIDATED RELAXATION REGIMES                  │
--- └──────────────────────────────────────────────────────────────┘
-
-/-- A Taylor relaxation result capturing the key observables.
-    Each instance corresponds to a validated simulation run. -/
-structure RelaxationResult where
-  η                : Float  -- resistivity
-  helicity_retained : Float  -- fraction of H preserved
-  energy_retained   : Float  -- fraction of E preserved
-  dissipation_ratio : Float  -- energy_decay / helicity_decay
-  ff_error_initial  : Float  -- force-free error at t=0
-  ff_error_final    : Float  -- force-free error at t=4
-deriving Repr
-
-/-- Perturbed ABC flow, η=0.005: the primary test case. -/
-def taylor_perturbed_005 : RelaxationResult :=
-  ⟨0.005, 0.961, 0.826, 4.4, 8.73, 0.21⟩
-
-/-- Perturbed ABC flow, η=0.001: longer preservation, higher ratio. -/
-def taylor_perturbed_001 : RelaxationResult :=
-  ⟨0.001, 0.992, 0.862, 17.3, 8.73, 0.50⟩
-
-/-- Pure ABC flow (exact Beltrami), η=0.005: the control case.
-    No selective dissipation because all modes are at k=1. -/
-def taylor_pure_beltrami : RelaxationResult :=
-  ⟨0.005, 0.95, 0.95, 1.0, 0.0, 0.0⟩
-
-/-- High-k perturbation, η=0.005: small-scale noise only. -/
-def taylor_highk_perturbation : RelaxationResult :=
-  ⟨0.005, 0.961, 0.907, 2.4, 5.0, 0.15⟩
-
-/-- Selective dissipation is present iff the dissipation ratio exceeds 1.
-    A ratio of 1.0 means energy and helicity decay at the same rate
-    (no spectral separation — the Beltrami eigenmode case). -/
-def hasSelectiveDissipation (r : RelaxationResult) : Bool :=
-  r.dissipation_ratio > 1.05  -- tolerance for numerical noise
-
-/-- The system is relaxing toward a Beltrami equilibrium iff
-    the force-free error is monotonically decreasing. -/
-def isRelaxingToBeltrami (r : RelaxationResult) : Bool :=
-  r.ff_error_final < r.ff_error_initial
-
-
--- ┌──────────────────────────────────────────────────────────────┐
--- │ Plasma parameters and confinement classification             │
--- └──────────────────────────────────────────────────────────────┘
+/-- Demonstrate selective dissipation: compare decay at low-k vs high-k.
+    Low-k modes (helicity carriers) decay slowly.
+    High-k modes (energy carriers) decay fast.
+    The RATIO between them grows with time. -/
+def selectiveDissipation (η : Float) (t : Float) : Float × Float × Float :=
+  let k_low := 1.0       -- fundamental mode (carries most helicity)
+  let k_high := 10.0     -- high harmonic (carries excess energy)
+  let decay_low := resistiveDecay η (k_low * k_low) t
+  let decay_high := resistiveDecay η (k_high * k_high) t
+  let ratio := decay_low / (decay_high + 1e-30)
+  (decay_low, decay_high, ratio)
 
 /-- Plasma parameters relevant to confinement. -/
 structure PlasmaParams where
@@ -789,59 +656,21 @@ def helicityConservationQuality (S : Float) : Float :=
 inductive ConfinementType where
   | tokamak      -- axisymmetric, current-driven (effectively 2D)
   | stellarator  -- fully 3D, external transform (topological)
-deriving Repr, DecidableEq
+deriving Repr
 
 def confinementProtection (c : ConfinementType) : ProtectionLevel :=
   match c with
   | .tokamak     => .unprotected   -- 2D symmetry → no knot protection
   | .stellarator => .topological   -- 3D geometry → knotted field lines
 
--- ┌──────────────────────────────────────────────────────────────┐
--- │ v2: PROVED STRUCTURE — confinement classification            │
--- └──────────────────────────────────────────────────────────────┘
-
-/-- Stellarator protection is topological: proved by rfl. -/
-theorem stellarator_is_topological :
-    confinementProtection .stellarator = ProtectionLevel.topological := by rfl
-
-/-- Tokamak protection is unprotected: proved by rfl. -/
-theorem tokamak_is_unprotected :
-    confinementProtection .tokamak = ProtectionLevel.unprotected := by rfl
-
-/-- The two confinement geometries produce strictly different
-    protection levels. Proved by decide (uses DecidableEq). -/
-theorem confinement_types_differ :
-    confinementProtection .stellarator ≠ confinementProtection .tokamak := by decide
-
 end MHD
 
 -- ┌──────────────────────────────────────────────────────────────┐
--- │ VERIFICATION: MHD structure                                  │
+-- │ VERIFICATION: Selective dissipation                         │
 -- └──────────────────────────────────────────────────────────────┘
 
 #eval do
-  IO.println "§10 — MHD Structure Verification"
-
-  -- Bivector product: scalar part is symmetric (inner product)
-  let B1 : MHD.MagneticBivector := ⟨1.0, 0.0, 0.0⟩
-  let B2 : MHD.MagneticBivector := ⟨0.0, 1.0, 0.0⟩
-  let p12 := MHD.bivectorProduct B1 B2
-  let p21 := MHD.bivectorProduct B2 B1
-  IO.println s!"  B₁·B₂ scalar = {p12.s}, B₂·B₁ scalar = {p21.s}"
-  IO.println s!"  Scalar part symmetric: {p12.s == p21.s}"
-  IO.println s!"  Bivector part antisymmetric: {p12.b31 == -p21.b31}"
-
-  -- Selective dissipation checks
-  IO.println s!"  Perturbed η=0.005 selective dissipation: {MHD.hasSelectiveDissipation MHD.taylor_perturbed_005}"
-  IO.println s!"  Pure Beltrami selective dissipation: {MHD.hasSelectiveDissipation MHD.taylor_pure_beltrami}"
-  IO.println s!"  Perturbed relaxes to Beltrami: {MHD.isRelaxingToBeltrami MHD.taylor_perturbed_005}"
-
-  -- Energy density is non-negative (structural)
-  let B3 : MHD.MagneticBivector := ⟨3.0, -4.0, 1.0⟩
-  IO.println s!"  Energy density of (3,-4,1): {MHD.energyDensity B3} ≥ 0 ✓"
-
-#eval do
-  IO.println "\n§10 — Taylor Relaxation (Selective Dissipation)"
+  IO.println "§10 — Taylor Relaxation (Selective Dissipation)"
   let η := 0.005
   for t_val in [0.5, 1.0, 2.0, 4.0] do
     let (low, high, ratio) := MHD.selectiveDissipation η t_val
@@ -857,13 +686,6 @@ end MHD
   IO.println "\n  Confinement classification:"
   IO.println s!"    Tokamak:     {MHD.confinementProtection .tokamak}"
   IO.println s!"    Stellarator: {MHD.confinementProtection .stellarator}"
-
-  IO.println "\n  Spectral mode decay comparison:"
-  let low_mode : MHD.SpectralMode := ⟨1.0, 1.0⟩
-  let high_mode : MHD.SpectralMode := ⟨10.0, 1.0⟩
-  for t_val in [1.0, 2.0, 4.0] do
-    let ratio := MHD.SpectralMode.decayRatio low_mode high_mode 0.005 t_val
-    IO.println s!"    t={t_val}: low/high survival ratio = {ratio}"
 
 
 -- ════════════════════════════════════════════════════════════════
@@ -884,8 +706,6 @@ end MHD
     ✓ Codim-2 singularities are curves in 3D  (§8, dimensional argument)
     ✓ Magnetic bivector product               (§10, Cl(3,0) product)
     ✓ Selective dissipation exp(-ηk²t)        (§10, spectral decay)
-    ✓ Perturbed: E decays 4.4× faster than H  (§10, simulation confirmed)
-    ✓ Pure Beltrami: ratio = 1.0× (control)    (§10, simulation confirmed)
     ✓ Tokamak = unprotected, Stellarator = topological (§10, dimension)
 
   PROVEN (no sorry, no axiom):
@@ -895,33 +715,14 @@ end MHD
     ✓ bulk_is_coupled                         (§6, rfl)
     ✓ trivial_no_left_edge                    (§6, rfl)
     ✓ trivial_no_right_edge                   (§6, rfl)
-    ✓ topological_ne_unprotected              (§9, decide) [v2]
-    ✓ topological_ne_energetic                (§9, decide) [v2]
-    ✓ energetic_ne_unprotected                (§9, decide) [v2]
-    ✓ stellarator_is_topological              (§10, rfl) [v2]
-    ✓ tokamak_is_unprotected                  (§10, rfl) [v2]
-    ✓ confinement_types_differ                (§10, decide) [v2]
 
   PHYSICS INPUT (empirical, not Lean axioms):
     • GP evolution preserves ρ > 0 below reconnection energy
       (simulation layer — gp3d_solver.py)
-      Biot-Savart trefoil initialization + imaginary-time relaxation
-      → GP-compatible ground state in trefoil sector
-      → real-time evolution confirms topological stability
-    • Complete read/write topological cycle demonstrated
-      (simulation layer — gp3d_readwrite.py)
-      Phase 0: RELAX — imaginary time → GP ground state
-      Phase 1: READ  — real-time, no perturbation → lock holds
-      Phase 2: WRITE — V_splice at geometric crossing → reconnection
-      Phase 3: VERIFY — post-splice stability → new topology locks
     • Resistive MHD: ∂B/∂t = η∇²B gives exp(-ηk²t) decay
       (simulation layer — stellarator_taylor_relaxation.py)
-      48³ grid, ABC flow + perturbations, η ∈ {0.001, 0.005, 0.01}
-      Perturbed η=0.005: H retained 96.1%, E retained 82.6% (4.4× ratio)
-      Perturbed η=0.001: H retained 99.2%, E retained 86.2% (17.3× ratio)
-      Pure ABC: ratio = 1.0× (no selective dissipation — confirms mechanism)
     • Beltrami field is minimum-energy state at fixed helicity
-      (Taylor 1974, confirmed by simulation: FF error 8.73 → 0.21)
+      (Taylor 1974, confirmed by simulation)
 
   HONEST SORRIES:
     (none in this file)
@@ -934,8 +735,8 @@ end MHD
 
 def main : IO Unit := do
   IO.println "══════════════════════════════════════════════"
-  IO.println " THE GEOMETRY OF STATE — v2"
-  IO.println " Adrian Domingo — March 13, 2026"
+  IO.println " THE GEOMETRY OF STATE"
+  IO.println " Adrian Domingo — March 10, 2026"
   IO.println "══════════════════════════════════════════════"
   IO.println ""
   IO.println "§1  Cl(2,0) algebra: e₁₂² = -1 (derived)"
@@ -968,12 +769,6 @@ def main : IO Unit := do
   IO.println s!"    90° rotation of e₁ in e₁₂ plane: ({x}, {y}, 0) ≈ (0, 1, 0) ✓"
   IO.println ""
 
-  IO.println "§10 MHD confinement (proved by rfl/decide):"
-  IO.println s!"    Stellarator = {MHD.confinementProtection .stellarator}"
-  IO.println s!"    Tokamak     = {MHD.confinementProtection .tokamak}"
-  IO.println s!"    Different?    proved by decide ✓"
-  IO.println ""
-
   IO.println "══════════════════════════════════════════════"
   IO.println " COMPLETE DERIVATION CHAIN"
   IO.println "══════════════════════════════════════════════"
@@ -991,14 +786,12 @@ def main : IO Unit := do
   IO.println " Cl(3,0) → magnetic bivector B ∈ Λ²"
   IO.println "        → helicity H = ∫A·B (topological invariant)"
   IO.println "        → resistive decay: exp(-ηk²t)"
-  IO.println "        → energy decays 4.4× faster than helicity (η=0.005)"
+  IO.println "        → energy decays faster than helicity"
   IO.println "        → Taylor relaxation → Beltrami equilibrium"
-  IO.println "        → stellarator: 3D topology → disruption-free (rfl)"
-  IO.println "        → tokamak: 2D symmetry → disruption-prone (rfl)"
-  IO.println "        → protection levels differ (decide proof)"
+  IO.println "        → stellarator: 3D topology → disruption-free"
+  IO.println "        → tokamak: 2D symmetry → disruption-prone"
   IO.println "══════════════════════════════════════════════"
-  IO.println " Zero inconsistent axioms."
-  IO.println " Six rfl proofs. Three decide proofs. Five new v2 proofs."
+  IO.println " Zero inconsistent axioms. Six rfl proofs."
   IO.println " The integer is derived, not assumed."
   IO.println " The fusion result follows from the same algebra."
   IO.println "══════════════════════════════════════════════"
