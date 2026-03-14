@@ -24,7 +24,7 @@
   CHANGES v1 → v2:
     • MHD section (§10) strengthened with new types, four validated simulation
       regimes, and rfl/decide proofs for confinement classification
-    • Simulation numbers updated to reflect latest runs (4.4× at η=0.005)
+    • Simulation numbers updated to reflect latest runs (4.4x at η=0.005)
     • Shared definitions (KitaevParams, gap, winding) aligned with
       TopologicalBridge v2 for eventual unification
     • ProtectionLevel gains DecidableEq → enables decide proofs
@@ -516,12 +516,6 @@ instance : ToString ProtectionLevel where
     | .energetic   => "energetic"
     | .topological => "topological"
 
-instance : ToString ProtectionLevel where
-  toString
-    | .unprotected => "unprotected"
-    | .energetic   => "energetic"
-    | .topological => "topological"
-
 /-- Protection depends on whether singularities can be knotted.
     In dim ≥ 3, codim-2 singularities are curves → can knot.
     In dim 2, codim-2 singularities are points → cannot knot. -/
@@ -613,7 +607,7 @@ deriving Repr
 /-- Force-free condition: ∇×B = λB (Beltrami field).
     In GA: the curl of B is proportional to B itself.
     The current J = ∇×B is PARALLEL to B everywhere.
-    This means J×B = 0: no Lorentz force on the plasma.
+    This means JxB = 0: no Lorentz force on the plasma.
 
     For the ABC flow (the Beltrami eigenmode used in the simulation):
       Bx = A·sin(z) + C·cos(y)
@@ -628,6 +622,29 @@ def isForceFreeBeltrami (B J : MagneticBivector) (lam : Float) : Bool :=
   Float.abs (J.b12 - lam * B.b12) < tol &&
   Float.abs (J.b23 - lam * B.b23) < tol &&
   Float.abs (J.b31 - lam * B.b31) < tol
+
+/-- Resistive decay factor for a single Fourier mode. -/
+def resistiveDecay (η : Float) (k_squared : Float) (t : Float) : Float :=
+  Float.exp (-η * k_squared * t)
+
+/-- Decay comparison between two spectral modes at given η, t.
+    Returns the ratio: how many times faster the high-k mode decays. -/
+def SpectralMode.decayRatio (low high : SpectralMode) (η t : Float) : Float :=
+  let d_low := resistiveDecay η (low.k_magnitude * low.k_magnitude) t
+  let d_high := resistiveDecay η (high.k_magnitude * high.k_magnitude) t
+  d_low / (d_high + 1e-30)
+
+/-- Demonstrate selective dissipation: compare decay at low-k vs high-k.
+    Low-k modes (helicity carriers) decay slowly.
+    High-k modes (energy carriers) decay fast.
+    The RATIO between them grows with time. -/
+def selectiveDissipation (η : Float) (t : Float) : Float × Float × Float :=
+  let k_low := 1.0       -- fundamental mode (carries most helicity)
+  let k_high := 10.0     -- high harmonic (carries excess energy)
+  let decay_low := resistiveDecay η (k_low * k_low) t
+  let decay_high := resistiveDecay η (k_high * k_high) t
+  let ratio := decay_low / (decay_high + 1e-30)
+  (decay_low, decay_high, ratio)
 
 /- Taylor Relaxation: the key theorem for fusion.
 
@@ -654,24 +671,24 @@ def isForceFreeBeltrami (B J : MagneticBivector) (lam : Float) : Bool :=
     on a 48³ grid over 800 steps (t=0→4, dt=0.005):
 
       Pure ABC (exact Beltrami, η=0.005):
-        H and E decay identically (ratio 1.0×) — no selective dissipation
-        FF error = 0.0000 throughout — eigenmode is exact
+        H and E decay identically (ratio 1.0x) -- no selective dissipation
+        FF error = 0.0000 throughout -- eigenmode is exact
 
       Perturbed ABC (ABC + noise, η=0.005):
         Helicity retained: ~96.1%
         Energy retained:   ~82.6%
-        Dissipation ratio: energy decays ~4.4× faster
+        Dissipation ratio: energy decays ~4.4x faster
         FF error: 8.73 → 0.21 (relaxing toward Beltrami)
 
       Perturbed ABC (η=0.001, longer preservation):
         Helicity retained: ~99.2%
         Energy retained:   ~86.2%
-        Dissipation ratio: energy decays ~17.3× faster
+        Dissipation ratio: energy decays ~17.3x faster
 
       High-k perturbation (small-scale noise, η=0.005):
         Helicity retained: ~96.1%
         Energy retained:   ~90.7%
-        Dissipation ratio: energy decays ~2.4× faster
+        Dissipation ratio: energy decays ~2.4x faster
 
     Key observations:
       • Pure Beltrami fields show NO selective dissipation (all modes at k=1)
@@ -867,8 +884,8 @@ end MHD
     ✓ Codim-2 singularities are curves in 3D  (§8, dimensional argument)
     ✓ Magnetic bivector product               (§10, Cl(3,0) product)
     ✓ Selective dissipation exp(-ηk²t)        (§10, spectral decay)
-    ✓ Perturbed: E decays 4.4× faster than H  (§10, simulation confirmed)
-    ✓ Pure Beltrami: ratio = 1.0× (control)    (§10, simulation confirmed)
+    ✓ Perturbed: E decays 4.4x faster than H  (§10, simulation confirmed)
+    ✓ Pure Beltrami: ratio = 1.0x (control)    (§10, simulation confirmed)
     ✓ Tokamak = unprotected, Stellarator = topological (§10, dimension)
 
   PROVEN (no sorry, no axiom):
@@ -900,12 +917,9 @@ end MHD
     • Resistive MHD: ∂B/∂t = η∇²B gives exp(-ηk²t) decay
       (simulation layer — stellarator_taylor_relaxation.py)
       48³ grid, ABC flow + perturbations, η ∈ {0.001, 0.005, 0.01}
-      Perturbed η=0.005: H retained 96.1%, E retained 82.6% (4.4× ratio)
-<<<<<<< HEAD
-      Perturbed η=0.001: H retained 99.2%, E retained 86.2% (17.3× ratio)
-=======
->>>>>>> f0fca68fe965b28879b245f35b2a1d655b6ca78e
-      Pure ABC: ratio = 1.0× (no selective dissipation — confirms mechanism)
+      Perturbed η=0.005: H retained 96.1%, E retained 82.6% (4.4x ratio)
+      Perturbed η=0.001: H retained 99.2%, E retained 86.2% (17.3x ratio)
+      Pure ABC: ratio = 1.0x (no selective dissipation -- confirms mechanism)
     • Beltrami field is minimum-energy state at fixed helicity
       (Taylor 1974, confirmed by simulation: FF error 8.73 → 0.21)
 
@@ -977,7 +991,7 @@ def main : IO Unit := do
   IO.println " Cl(3,0) → magnetic bivector B ∈ Λ²"
   IO.println "        → helicity H = ∫A·B (topological invariant)"
   IO.println "        → resistive decay: exp(-ηk²t)"
-  IO.println "        → energy decays 4.4× faster than helicity (η=0.005)"
+  IO.println "        → energy decays 4.4x faster than helicity (η=0.005)"
   IO.println "        → Taylor relaxation → Beltrami equilibrium"
   IO.println "        → stellarator: 3D topology → disruption-free (rfl)"
   IO.println "        → tokamak: 2D symmetry → disruption-prone (rfl)"

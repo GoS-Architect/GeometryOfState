@@ -1,95 +1,86 @@
 # The Geometry of State
 
-A formally verified framework deriving topological invariants from Clifford algebra, connecting condensed matter physics to fusion plasma confinement.
+A Lean 4 framework deriving topological invariants from Clifford algebra. Connects the Kitaev chain (condensed matter) to Taylor relaxation (fusion plasma confinement) through a shared Cl(3,0) bivector structure.
 
-**One file. Zero dependencies. Seven theorems verified by the Lean 4 kernel.**
+Two files. Zero dependencies beyond Lean 4. Twelve proved theorems. Zero `sorry`.
 
 ```
 lake build
 ```
 
-## What This Proves
+## Contents
 
-The file `GeometryOfState.lean` builds a chain from the Clifford algebra Cl(n,0) to Majorana zero-mode edge states, with every step either computed by the type checker or proved without `sorry`.
+- `GeometryOfState.lean` — Clifford algebras Cl(2,0) and Cl(3,0), Kitaev Hamiltonian, winding numbers, Majorana edge modes, MHD Taylor relaxation, stellarator/tokamak classification. All proofs by `rfl` or `decide`.
+- `TopologicalBridge.lean` — Axiom chain from HoTT (pi_1(S^1) = Z) through the gap condition to topological protection and information conservation. Extends to 3D knot protection and MHD helicity conservation. All proved theorems in term mode, no tactic imports.
+- `Simulations/` — Python scripts providing numerical evidence for the physics inputs.
 
-### Derivation Chain
+## Proved Theorems
 
-```
-Cl(2,0)  →  bivector e₁₂  →  e₁₂² = -1 (derived, not assumed)
-         →  rotors R = cos(θ/2) + sin(θ/2)·e₁₂
-         →  Kitaev Hamiltonian H(k) as Cl(2,0) vector
-         →  winding number W ∈ ℤ (computed: W=1 topological, W=0 trivial)
-         →  W=1 ⟹ edge modes at A(1), B(3) (rfl proof)
-         →  W=0 ⟹ no edge modes (rfl proof)
+### GeometryOfState.lean
 
-Cl(3,0)  →  3D rotors on S³  →  sandwich product RvR† (no rotation matrices)
-         →  magnetic bivector B ∈ Λ²
-         →  resistive decay exp(-ηk²t)
-         →  energy decays 4.4× faster than helicity (η=0.005)
-         →  Taylor relaxation → Beltrami equilibrium
-         →  stellarator (3D) = topological protection
-         →  tokamak (2D symmetry) = unprotected
-```
-
-### Verified Theorems
-
-| Theorem | Statement | Proof |
+| Theorem | Proof | What it says |
 |---|---|---|
-| `gapless_blocks_inversion` | If the spectral gap is closed, the topological invariant cannot be computed | 3-line proof, no sorry |
-| `left_edge_mode` | Majorana A(1) is a zero-energy mode in the 3-site topological Kitaev chain | `rfl` |
-| `right_edge_mode` | Majorana B(3) is a zero-energy mode in the 3-site topological Kitaev chain | `rfl` |
-| `bulk_is_coupled` | Majorana B(1) is NOT a zero-energy mode (it's coupled to the bulk) | `rfl` |
-| `trivial_no_left_edge` | No left edge mode in the trivial phase | `rfl` |
-| `trivial_no_right_edge` | No right edge mode in the trivial phase | `rfl` |
+| `gapless_blocks_inversion` | 3 lines | If the gap is closed, no proof of `IsGappedAt` exists, so the invariant cannot be computed |
+| `left_edge_mode` | `rfl` | Majorana A(1) is free in the 3-site topological chain |
+| `right_edge_mode` | `rfl` | Majorana B(3) is free in the 3-site topological chain |
+| `bulk_is_coupled` | `rfl` | Majorana B(1) is coupled (not an edge mode) |
+| `trivial_no_left_edge` | `rfl` | No left edge mode in the trivial phase |
+| `trivial_no_right_edge` | `rfl` | No right edge mode in the trivial phase |
+| `topological_ne_unprotected` | `decide` | Protection levels are distinct |
+| `topological_ne_energetic` | `decide` | Protection levels are distinct |
+| `energetic_ne_unprotected` | `decide` | Protection levels are distinct |
+| `stellarator_is_topological` | `rfl` | Stellarator confinement maps to topological protection |
+| `tokamak_is_unprotected` | `rfl` | Tokamak confinement maps to unprotected |
+| `confinement_types_differ` | `decide` | The two confinement geometries produce different protection levels |
 
-The `rfl` proofs mean the Lean 4 kernel evaluates the function and confirms the result. No axioms, no trust — the compiler is the verifier.
+### TopologicalBridge.lean
 
-### Computed Verifications (via `#eval`)
-
-- `e₁₂² = -1` in Cl(2,0) — the "imaginary unit" is a consequence of the algebra
-- `e₁₂² = -1`, `e₁₂₃² = -1`, associativity in Cl(3,0)
-- Winding number: W = 1 (topological), W = 0 (trivial), W = -1 (negative pairing)
-- 3D rotation via sandwich product matches expected results
-- Selective dissipation: low-k modes persist while high-k modes decay
-
-## Architecture
-
-```
-§1   Cl(2,0) algebra — geometric product, bivector emerges
-§2   Rotors — even subalgebra, composition, angle extraction
-§3   Gap condition — bivector inversion requires proof of |B|² ≠ 0
-§4   Kitaev Hamiltonian — Cl(2,0) vector field over Brillouin zone
-§5   Winding number — integer derived from rotor phase accumulation
-§6   Majorana edge modes — bulk-boundary correspondence, rfl proofs
-§7   Cl(3,0) — full 8D algebra, 64-term product, verified identities
-§8   3D rotors — quaternionic structure, sandwich product
-§9   Protection hierarchy — unprotected / energetic / topological
-§10  MHD fusion — magnetic bivector, Taylor relaxation, stellarator vs tokamak
-```
+| Theorem | Status | Depends on |
+|---|---|---|
+| `singularity_blocks_construction` | Proved | Nothing (pure logic) |
+| `singularity_excludes_point` | Proved | Nothing (pure logic) |
+| `mzm_matches_topology` | Proved | Axiom D |
+| `full_pipeline` | Proved | Axiom D |
+| `full_pipeline_to_qubit` | Proved | Axiom D |
+| `topological_protection` | Proved | Axiom E |
+| `information_conservation` | Proved | Axioms D + E |
+| `knot_topological_protection` | Proved | Axiom F |
+| `helicity_topological_protection` | Proved | Axiom G |
 
 ## Axiom Accounting
 
-**Zero inconsistent axioms.** The `ConservationOfInformation` axiom from earlier versions (which was provably false — `Empty = Empty` by `rfl`) has been removed.
+The TopologicalBridge has 7 axioms (A-G), each in a different mathematical domain. The dependency graph and closure strategy are documented in the file. Two theorems (`singularity_blocks_construction`, `singularity_excludes_point`) depend on no axioms at all.
 
-**Zero `sorry`.** Every theorem is fully proved.
+GeometryOfState has zero axioms and zero `sorry`. Physics inputs (PDE behavior, simulation results) are stated in comments, not as Lean axioms.
 
-**Physics input** (stated in comments, not as Lean axioms):
-- Gross-Pitaevskii evolution preserves density > 0 below reconnection energy — Biot-Savart trefoil initialization + imaginary-time relaxation produces a GP-compatible ground state in the trefoil sector; real-time evolution confirms topological stability
-- Complete read/write topological cycle demonstrated via 4-phase protocol: Relax → Read → Splice → Verify
-- Resistive MHD gives spectral decay exp(-ηk²t) — confirmed on 48³ grid across 9 parameter sweeps: perturbed ABC at η=0.005 shows H retained 96.1%, E retained 82.6% (4.4× selective dissipation ratio); pure Beltrami control shows ratio = 1.0× (confirming the mechanism requires multi-scale structure)
-- Beltrami field is minimum-energy state at fixed helicity (Taylor 1974, confirmed by simulation: force-free error 8.73 → 0.21)
+## Derivation Chain
 
-These are empirical facts about PDEs. They belong to the simulation layer, not the proof layer.
+```
+Cl(2,0) -> bivector e12 -> e12^2 = -1 (computed, not assumed)
+        -> rotors on S^1
+        -> Kitaev H(k) as Cl(2,0) vector
+        -> winding number W (computed: W=1 topological, W=0 trivial)
+        -> edge modes verified by rfl
 
-## The Key Insight
+Cl(3,0) -> 3D rotors (quaternions)
+        -> codim-2 singularities are curves -> can knot
+        -> knot type is discrete invariant
+        -> magnetic bivector B in Lambda^2
+        -> resistive decay exp(-eta k^2 t)
+        -> Taylor relaxation -> Beltrami equilibrium
+```
 
-The spectral gap in the Kitaev chain is not just a number — it is a **proof obligation**. The function `safeBivectorInv` requires a witness `_hGap : IsGappedAt h1 h2` to be called. At the topological phase transition, this witness does not exist. The invariant becomes **uncomputable** — not because of a runtime error, but because the proof term is absent.
+## Simulations
 
-The singularity is a type error. This is proven in `gapless_blocks_inversion`.
+Numerical evidence for the physics inputs. These are independent of the Lean proofs.
+
+- `stellarator_taylor_relaxation.py` — 48^3 grid, ABC Beltrami fields. Perturbed ABC at eta=0.005: energy decays 4.4x faster than helicity. Pure Beltrami control: ratio = 1.0x. Lower resistivity (eta=0.001): 17.3x ratio.
+- `gp3d_solver.py` — 3D Gross-Pitaevskii solver. Biot-Savart trefoil initialization, imaginary-time relaxation, real-time evolution.
+- `gp3d_readwrite.py` — Read/write topological cycle: relax, read, splice, verify.
 
 ## Building
 
-Requires [Lean 4](https://leanprover.github.io/lean4/doc/setup.html) (v4.12.0 or compatible).
+Requires [Lean 4](https://leanprover.github.io/lean4/doc/setup.html).
 
 ```bash
 git clone https://github.com/GoS-Architect/GeometryOfState.git
@@ -97,28 +88,10 @@ cd GeometryOfState
 lake build
 ```
 
-All proofs compile. The `#eval` blocks print verification results.
+## License
 
-To run as an executable:
-
-```bash
-lake exe geometry_of_state
-```
-
-## Related Simulations
-
-The simulation scripts numerically validate the framework's predictions:
-
-- **`stellarator_taylor_relaxation.py`** — Demonstrates selective dissipation on ABC Beltrami fields (48³ grid, 9 parameter sweeps). Key result: perturbed ABC at η=0.005 shows energy decays 4.4× faster than helicity. Pure Beltrami control confirms ratio = 1.0× (no selective dissipation when all modes sit at the same k). Lower resistivity (η=0.001) yields 17.3× ratio — more scale separation before decay.
-- **`gp3d_solver.py`** — 3D Gross-Pitaevskii solver with Biot-Savart trefoil initialization, imaginary-time relaxation, and continuous topological auditing.
-- **`gp3d_readwrite.py`** — Complete read/write cycle executing the 4-phase protocol: Relax (imaginary time → ground state) → Read (real-time stability hold) → Splice (V_splice at geometric crossing → reconnection) → Verify (post-splice persistence).
-
-These simulations are independent of the Lean proofs. The Lean file proves the logical structure; the simulations provide numerical evidence.
+MIT
 
 ## Author
 
 Adrian Domingo
-
-## License
-
-MIT
