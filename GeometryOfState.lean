@@ -629,32 +629,6 @@ def isForceFreeBeltrami (B J : MagneticBivector) (lam : Float) : Bool :=
   Float.abs (J.b23 - lam * B.b23) < tol &&
   Float.abs (J.b31 - lam * B.b31) < tol
 
-<<<<<<< HEAD
-/-- Resistive decay factor for a single Fourier mode. -/
-def resistiveDecay (η : Float) (k_squared : Float) (t : Float) : Float :=
-  Float.exp (-η * k_squared * t)
-
-/-- Decay comparison between two spectral modes at given η, t.
-    Returns the ratio: how many times faster the high-k mode decays. -/
-def SpectralMode.decayRatio (low high : SpectralMode) (η t : Float) : Float :=
-  let d_low := resistiveDecay η (low.k_magnitude * low.k_magnitude) t
-  let d_high := resistiveDecay η (high.k_magnitude * high.k_magnitude) t
-  d_low / (d_high + 1e-30)
-
-/-- Demonstrate selective dissipation: compare decay at low-k vs high-k.
-    Low-k modes (helicity carriers) decay slowly.
-    High-k modes (energy carriers) decay fast.
-    The RATIO between them grows with time. -/
-def selectiveDissipation (η : Float) (t : Float) : Float × Float × Float :=
-  let k_low := 1.0       -- fundamental mode (carries most helicity)
-  let k_high := 10.0     -- high harmonic (carries excess energy)
-  let decay_low := resistiveDecay η (k_low * k_low) t
-  let decay_high := resistiveDecay η (k_high * k_high) t
-  let ratio := decay_low / (decay_high + 1e-30)
-  (decay_low, decay_high, ratio)
-
-=======
->>>>>>> f0fca68fe965b28879b245f35b2a1d655b6ca78e
 /- Taylor Relaxation: the key theorem for fusion.
 
     STATEMENT: Under resistive diffusion (∂B/∂t = η∇²B),
