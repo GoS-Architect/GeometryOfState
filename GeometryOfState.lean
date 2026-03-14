@@ -516,6 +516,12 @@ instance : ToString ProtectionLevel where
     | .energetic   => "energetic"
     | .topological => "topological"
 
+instance : ToString ProtectionLevel where
+  toString
+    | .unprotected => "unprotected"
+    | .energetic   => "energetic"
+    | .topological => "topological"
+
 /-- Protection depends on whether singularities can be knotted.
     In dim ≥ 3, codim-2 singularities are curves → can knot.
     In dim 2, codim-2 singularities are points → cannot knot. -/
@@ -623,6 +629,7 @@ def isForceFreeBeltrami (B J : MagneticBivector) (lam : Float) : Bool :=
   Float.abs (J.b23 - lam * B.b23) < tol &&
   Float.abs (J.b31 - lam * B.b31) < tol
 
+<<<<<<< HEAD
 /-- Resistive decay factor for a single Fourier mode. -/
 def resistiveDecay (η : Float) (k_squared : Float) (t : Float) : Float :=
   Float.exp (-η * k_squared * t)
@@ -646,6 +653,8 @@ def selectiveDissipation (η : Float) (t : Float) : Float × Float × Float :=
   let ratio := decay_low / (decay_high + 1e-30)
   (decay_low, decay_high, ratio)
 
+=======
+>>>>>>> f0fca68fe965b28879b245f35b2a1d655b6ca78e
 /- Taylor Relaxation: the key theorem for fusion.
 
     STATEMENT: Under resistive diffusion (∂B/∂t = η∇²B),
@@ -918,7 +927,10 @@ end MHD
       (simulation layer — stellarator_taylor_relaxation.py)
       48³ grid, ABC flow + perturbations, η ∈ {0.001, 0.005, 0.01}
       Perturbed η=0.005: H retained 96.1%, E retained 82.6% (4.4× ratio)
+<<<<<<< HEAD
       Perturbed η=0.001: H retained 99.2%, E retained 86.2% (17.3× ratio)
+=======
+>>>>>>> f0fca68fe965b28879b245f35b2a1d655b6ca78e
       Pure ABC: ratio = 1.0× (no selective dissipation — confirms mechanism)
     • Beltrami field is minimum-energy state at fixed helicity
       (Taylor 1974, confirmed by simulation: FF error 8.73 → 0.21)
