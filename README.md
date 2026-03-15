@@ -138,9 +138,8 @@ All seven simulation runs confirmed the Lean predictions: every failure correspo
 Requires [Lean 4](https://leanprover.github.io/lean4/doc/setup.html). No Mathlib dependency.
 
 ```bash
-git clone https://github.com/GoS-Architect/topological-invariants-dependent-types.git
-cd topological-invariants-dependent-types
-lake build
+git clone https://github.com/GoS-Architect/GeometryOfState.git
+cd GeometryOfState
 ```
 
 ## License
