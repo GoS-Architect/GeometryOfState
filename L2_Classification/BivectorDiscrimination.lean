@@ -22,7 +22,7 @@
 -/
 
 -- Import SpinGroup definitions
-import GoS.L2_Classification.SpinGroup
+import SpinGroup
 
 open Cl2Q
 

@@ -1,0 +1,711 @@
+{
+  "control": {
+    "label": "CONTROL: No Ni-62 (h_ex=0)",
+    "N_sites": 100,
+    "gap": 0.020007,
+    "n_zero_modes": 8,
+    "edge_weight": 0.2088,
+    "defect_weight": 0.0,
+    "bulk_weight": 0.7912,
+    "localization_max": 0.2088,
+    "is_topological": false,
+    "lowest_10_energies": [
+      0.020007,
+      -0.020007,
+      -0.020007,
+      0.020007,
+      0.044559,
+      -0.044559,
+      -0.044559,
+      0.044559,
+      0.084124,
+      -0.084124
+    ],
+    "option": "Control",
+    "status": "TRIVIAL",
+    "diagnosis": "No time-reversal breaking. System is in class BDI. Without exchange field, the Rashba nanowire is in the trivial phase (need h > 0.583, have h=0). This is the expected baseline: no MZMs without T-breaking."
+  },
+  "option_a": {
+    "label": "OPTION A: Uniform exchange layer (Ni-62 between graphene & Nb)",
+    "N_sites": 100,
+    "gap": 0.019185,
+    "n_zero_modes": 6,
+    "edge_weight": 0.2058,
+    "defect_weight": 0.0,
+    "bulk_weight": 0.7942,
+    "localization_max": 0.2058,
+    "is_topological": false,
+    "lowest_10_energies": [
+      0.019185,
+      -0.019185,
+      0.028494,
+      -0.028494,
+      -0.038381,
+      0.038381,
+      0.050593,
+      -0.050593,
+      -0.088577,
+      0.088577
+    ],
+    "option": "A",
+    "Delta_eff": 0.03,
+    "h_threshold": 0.5009,
+    "status": "FAIL",
+    "diagnosis": "Pair-breaking from continuous Ni film suppresses \u0394_eff to 0.030. While h_ex=0.6 > threshold=0.501 (class D topology is mathematically allowed), the induced gap is too small to support well-separated zero modes. ANTITHESIS: Continuous ferromagnetic film kills superconducting proximity before topology can emerge. This is the central tension in Option A \u2014 exchange and pairing compete destructively."
+  },
+  "option_b": {
+    "label": "OPTION B: Ni-62(111) substrate under graphene",
+    "N_sites": 100,
+    "gap": 0.005524,
+    "n_zero_modes": 22,
+    "edge_weight": 0.1856,
+    "defect_weight": 0.0,
+    "bulk_weight": 0.8144,
+    "localization_max": 0.1856,
+    "is_topological": false,
+    "lowest_10_energies": [
+      -0.005524,
+      0.005524,
+      -0.01681,
+      0.01681,
+      -0.017954,
+      0.017954,
+      0.020165,
+      -0.020165,
+      -0.025504,
+      0.025504
+    ],
+    "option": "B",
+    "mu_shifted": 2.5,
+    "h_threshold": 2.5179,
+    "status": "FAIL",
+    "diagnosis": "Ni(111) substrate shifts graphene \u03c0-band ~2 eV below E_F via C p_z\u2013Ni 3d hybridization. Effective \u03bc=2.5 puts system far from the topological regime (threshold h > 2.52, have h=0.6). ANTITHESIS: The 1.2% lattice match between Ni(111) and graphene enables perfect epitaxy but DESTROYS the Dirac cone. The very property that makes Ni an excellent graphene substrate (strong hybridization) is what kills the topological physics. This is not a parameter tuning problem \u2014 it is structural. Even with enhanced SOC (~1.5\u00d7), the system is deep in the trivial phase."
+  },
+  "option_c": {
+    "label": "OPTION C: Ni-62 nano-islands at 5/7 defect sites",
+    "N_sites": 100,
+    "gap": 0.014906,
+    "n_zero_modes": 8,
+    "edge_weight": 0.2093,
+    "defect_weight": 0.104,
+    "bulk_weight": 0.6867,
+    "localization_max": 0.2093,
+    "is_topological": false,
+    "lowest_10_energies": [
+      -0.014906,
+      0.014906,
+      0.026302,
+      -0.026302,
+      -0.038297,
+      0.038297,
+      -0.048017,
+      0.048017,
+      0.082838,
+      -0.082838
+    ],
+    "option": "C",
+    "defect_sites": [
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55
+    ],
+    "defect_width": 11,
+    "h_threshold": 0.5831,
+    "status": "PARTIAL",
+    "diagnosis": "Exchange field applied at defect sites, but topological domain may be too narrow (11 sites) to support well-separated MZMs. The two domain walls are close together, causing hybridization of the MZMs and energy splitting away from zero. ANTITHESIS: defect region may need to be wider, or exchange field stronger, for robust zero modes. Defect localization: 10.4%, Gap: 0.0149."
+  },
+  "option_d": {
+    "label": "OPTION D: Ni-62/Nb bilayer triplet generator",
+    "N_sites": 100,
+    "gap": 0.009201,
+    "n_zero_modes": 4,
+    "edge_weight": 0.2062,
+    "defect_weight": 0.0,
+    "bulk_weight": 0.7938,
+    "localization_max": 0.2062,
+    "is_topological": false,
+    "lowest_10_energies": [
+      -0.009201,
+      0.009201,
+      -0.009201,
+      0.009201,
+      -0.058388,
+      0.058388,
+      0.058388,
+      -0.058388,
+      -0.076317,
+      0.076317
+    ],
+    "option": "D",
+    "delta_s_eff": 0.15,
+    "delta_t_eff": 0.075,
+    "status": "FAIL",
+    "diagnosis": "Without exchange field at the graphene level (h_ex=0), the system lacks time-reversal symmetry breaking. Triplet pairing alone (\u0394_t=0.075) is present but without a Zeeman-like term to select a spin channel, the system remains in a time-reversal invariant class (DIII) where the invariant is Z\u2082. The p-wave component is too weak relative to the residual singlet to drive a topological transition. ANTITHESIS: Triplet conversion without local T-breaking is architecturally indirect \u2014 it doesn't create the domain-wall geometry your 5/7 defect picture requires. The MZMs, if they appeared, would be at the chain ends, not at defect boundaries."
+  },
+  "option_e": {
+    "label": "OPTION E: Hybrid \u2014 Ni-62 at defects + triplet at boundaries",
+    "N_sites": 100,
+    "gap": 0.014297,
+    "n_zero_modes": 8,
+    "edge_weight": 0.2093,
+    "defect_weight": 0.1038,
+    "bulk_weight": 0.6868,
+    "localization_max": 0.2093,
+    "is_topological": false,
+    "lowest_10_energies": [
+      -0.014297,
+      0.014297,
+      0.026014,
+      -0.026014,
+      0.038358,
+      -0.038358,
+      0.048463,
+      -0.048463,
+      0.082351,
+      -0.082351
+    ],
+    "option": "E",
+    "defect_sites": [
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55
+    ],
+    "n_boundary_bonds": 2,
+    "h_threshold": 0.5831,
+    "status": "PARTIAL",
+    "diagnosis": "Similar to Option C: defect region too narrow for fully separated MZMs, or exchange/SOC balance needs tuning. Defect localization: 10.4%. Gap: 0.0143. The triplet boundary component adds complexity without qualitatively changing the result relative to Option C."
+  },
+  "sweep_defect_width": [
+    {
+      "width": 5,
+      "gap": 0.022874,
+      "n_zero_modes": 8,
+      "defect_weight": 0.0492,
+      "edge_weight": 0.2087,
+      "is_topological": false,
+      "lowest_energy": -0.022874
+    },
+    {
+      "width": 7,
+      "gap": 0.0126,
+      "n_zero_modes": 6,
+      "defect_weight": 0.0642,
+      "edge_weight": 0.2085,
+      "is_topological": false,
+      "lowest_energy": 0.0126
+    },
+    {
+      "width": 9,
+      "gap": 0.016657,
+      "n_zero_modes": 8,
+      "defect_weight": 0.0883,
+      "edge_weight": 0.2083,
+      "is_topological": false,
+      "lowest_energy": -0.016657
+    },
+    {
+      "width": 11,
+      "gap": 0.014906,
+      "n_zero_modes": 8,
+      "defect_weight": 0.104,
+      "edge_weight": 0.2093,
+      "is_topological": false,
+      "lowest_energy": -0.014906
+    },
+    {
+      "width": 13,
+      "gap": 0.012635,
+      "n_zero_modes": 6,
+      "defect_weight": 0.1299,
+      "edge_weight": 0.2068,
+      "is_topological": false,
+      "lowest_energy": -0.012635
+    },
+    {
+      "width": 15,
+      "gap": 0.02,
+      "n_zero_modes": 8,
+      "defect_weight": 0.1371,
+      "edge_weight": 0.2115,
+      "is_topological": false,
+      "lowest_energy": 0.02
+    },
+    {
+      "width": 17,
+      "gap": 0.012027,
+      "n_zero_modes": 6,
+      "defect_weight": 0.1603,
+      "edge_weight": 0.2092,
+      "is_topological": false,
+      "lowest_energy": 0.012027
+    },
+    {
+      "width": 19,
+      "gap": 0.018776,
+      "n_zero_modes": 8,
+      "defect_weight": 0.1828,
+      "edge_weight": 0.2099,
+      "is_topological": false,
+      "lowest_energy": -0.018776
+    },
+    {
+      "width": 21,
+      "gap": 0.01662,
+      "n_zero_modes": 8,
+      "defect_weight": 0.2053,
+      "edge_weight": 0.2095,
+      "is_topological": false,
+      "lowest_energy": -0.01662
+    },
+    {
+      "width": 23,
+      "gap": 0.016124,
+      "n_zero_modes": 6,
+      "defect_weight": 0.2246,
+      "edge_weight": 0.2077,
+      "is_topological": false,
+      "lowest_energy": -0.016124
+    },
+    {
+      "width": 25,
+      "gap": 0.020256,
+      "n_zero_modes": 8,
+      "defect_weight": 0.2419,
+      "edge_weight": 0.21,
+      "is_topological": false,
+      "lowest_energy": 0.020256
+    },
+    {
+      "width": 27,
+      "gap": 0.01485,
+      "n_zero_modes": 6,
+      "defect_weight": 0.2666,
+      "edge_weight": 0.2071,
+      "is_topological": false,
+      "lowest_energy": -0.01485
+    },
+    {
+      "width": 29,
+      "gap": 0.01849,
+      "n_zero_modes": 8,
+      "defect_weight": 0.2729,
+      "edge_weight": 0.2125,
+      "is_topological": false,
+      "lowest_energy": -0.01849
+    },
+    {
+      "width": 31,
+      "gap": 0.016812,
+      "n_zero_modes": 8,
+      "defect_weight": 0.2971,
+      "edge_weight": 0.2114,
+      "is_topological": false,
+      "lowest_energy": -0.016812
+    },
+    {
+      "width": 33,
+      "gap": 0.013758,
+      "n_zero_modes": 6,
+      "defect_weight": 0.3143,
+      "edge_weight": 0.2108,
+      "is_topological": false,
+      "lowest_energy": 0.013758
+    },
+    {
+      "width": 35,
+      "gap": 0.021645,
+      "n_zero_modes": 8,
+      "defect_weight": 0.3447,
+      "edge_weight": 0.2094,
+      "is_topological": false,
+      "lowest_energy": 0.021645
+    },
+    {
+      "width": 37,
+      "gap": 0.017545,
+      "n_zero_modes": 6,
+      "defect_weight": 0.3567,
+      "edge_weight": 0.21,
+      "is_topological": false,
+      "lowest_energy": 0.017545
+    },
+    {
+      "width": 39,
+      "gap": 0.021013,
+      "n_zero_modes": 8,
+      "defect_weight": 0.3811,
+      "edge_weight": 0.2106,
+      "is_topological": false,
+      "lowest_energy": -0.021013
+    },
+    {
+      "width": 41,
+      "gap": 0.020064,
+      "n_zero_modes": 8,
+      "defect_weight": 0.3939,
+      "edge_weight": 0.2121,
+      "is_topological": false,
+      "lowest_energy": -0.020064
+    },
+    {
+      "width": 43,
+      "gap": 0.01607,
+      "n_zero_modes": 8,
+      "defect_weight": 0.4121,
+      "edge_weight": 0.2131,
+      "is_topological": false,
+      "lowest_energy": 0.01607
+    },
+    {
+      "width": 45,
+      "gap": 0.023506,
+      "n_zero_modes": 8,
+      "defect_weight": 0.4314,
+      "edge_weight": 0.2133,
+      "is_topological": false,
+      "lowest_energy": -0.023506
+    },
+    {
+      "width": 47,
+      "gap": 0.01322,
+      "n_zero_modes": 6,
+      "defect_weight": 0.4594,
+      "edge_weight": 0.2089,
+      "is_topological": false,
+      "lowest_energy": -0.01322
+    },
+    {
+      "width": 49,
+      "gap": 0.018441,
+      "n_zero_modes": 8,
+      "defect_weight": 0.4793,
+      "edge_weight": 0.2113,
+      "is_topological": false,
+      "lowest_energy": -0.018441
+    },
+    {
+      "width": 51,
+      "gap": 0.019849,
+      "n_zero_modes": 8,
+      "defect_weight": 0.5036,
+      "edge_weight": 0.2084,
+      "is_topological": true,
+      "lowest_energy": -0.019849
+    },
+    {
+      "width": 53,
+      "gap": 0.018431,
+      "n_zero_modes": 8,
+      "defect_weight": 0.5192,
+      "edge_weight": 0.2119,
+      "is_topological": true,
+      "lowest_energy": -0.018431
+    },
+    {
+      "width": 55,
+      "gap": 0.024569,
+      "n_zero_modes": 8,
+      "defect_weight": 0.5341,
+      "edge_weight": 0.213,
+      "is_topological": true,
+      "lowest_energy": 0.024569
+    },
+    {
+      "width": 57,
+      "gap": 0.017107,
+      "n_zero_modes": 8,
+      "defect_weight": 0.5486,
+      "edge_weight": 0.2163,
+      "is_topological": true,
+      "lowest_energy": -0.017107
+    },
+    {
+      "width": 59,
+      "gap": 0.021085,
+      "n_zero_modes": 8,
+      "defect_weight": 0.5719,
+      "edge_weight": 0.2138,
+      "is_topological": true,
+      "lowest_energy": -0.021085
+    }
+  ],
+  "sweep_exchange_strength": [
+    {
+      "h_ex": 0.0,
+      "gap": 0.025277,
+      "n_zero_modes": 8,
+      "defect_weight": 0.1006,
+      "is_topological": false,
+      "lowest_energy": -0.025277
+    },
+    {
+      "h_ex": 0.05,
+      "gap": 0.025148,
+      "n_zero_modes": 8,
+      "defect_weight": 0.1007,
+      "is_topological": false,
+      "lowest_energy": 0.025148
+    },
+    {
+      "h_ex": 0.1,
+      "gap": 0.024957,
+      "n_zero_modes": 8,
+      "defect_weight": 0.1008,
+      "is_topological": false,
+      "lowest_energy": 0.024957
+    },
+    {
+      "h_ex": 0.15,
+      "gap": 0.024691,
+      "n_zero_modes": 8,
+      "defect_weight": 0.101,
+      "is_topological": false,
+      "lowest_energy": -0.024691
+    },
+    {
+      "h_ex": 0.2,
+      "gap": 0.024307,
+      "n_zero_modes": 8,
+      "defect_weight": 0.1012,
+      "is_topological": false,
+      "lowest_energy": -0.024307
+    },
+    {
+      "h_ex": 0.25,
+      "gap": 0.023755,
+      "n_zero_modes": 8,
+      "defect_weight": 0.1016,
+      "is_topological": false,
+      "lowest_energy": 0.023755
+    },
+    {
+      "h_ex": 0.3,
+      "gap": 0.023005,
+      "n_zero_modes": 8,
+      "defect_weight": 0.1019,
+      "is_topological": false,
+      "lowest_energy": 0.023005
+    },
+    {
+      "h_ex": 0.35,
+      "gap": 0.022052,
+      "n_zero_modes": 8,
+      "defect_weight": 0.1023,
+      "is_topological": false,
+      "lowest_energy": -0.022052
+    },
+    {
+      "h_ex": 0.4,
+      "gap": 0.020905,
+      "n_zero_modes": 8,
+      "defect_weight": 0.1027,
+      "is_topological": false,
+      "lowest_energy": 0.020905
+    },
+    {
+      "h_ex": 0.45,
+      "gap": 0.019585,
+      "n_zero_modes": 8,
+      "defect_weight": 0.103,
+      "is_topological": false,
+      "lowest_energy": -0.019585
+    },
+    {
+      "h_ex": 0.5,
+      "gap": 0.018119,
+      "n_zero_modes": 8,
+      "defect_weight": 0.1033,
+      "is_topological": false,
+      "lowest_energy": 0.018119
+    },
+    {
+      "h_ex": 0.55,
+      "gap": 0.016546,
+      "n_zero_modes": 8,
+      "defect_weight": 0.1036,
+      "is_topological": false,
+      "lowest_energy": -0.016546
+    },
+    {
+      "h_ex": 0.6,
+      "gap": 0.014906,
+      "n_zero_modes": 8,
+      "defect_weight": 0.104,
+      "is_topological": false,
+      "lowest_energy": -0.014906
+    },
+    {
+      "h_ex": 0.65,
+      "gap": 0.013243,
+      "n_zero_modes": 8,
+      "defect_weight": 0.1045,
+      "is_topological": false,
+      "lowest_energy": -0.013243
+    },
+    {
+      "h_ex": 0.7,
+      "gap": 0.011602,
+      "n_zero_modes": 6,
+      "defect_weight": 0.1095,
+      "is_topological": false,
+      "lowest_energy": -0.011602
+    },
+    {
+      "h_ex": 0.75,
+      "gap": 0.010033,
+      "n_zero_modes": 6,
+      "defect_weight": 0.1116,
+      "is_topological": false,
+      "lowest_energy": 0.010033
+    },
+    {
+      "h_ex": 0.8,
+      "gap": 0.008605,
+      "n_zero_modes": 6,
+      "defect_weight": 0.1148,
+      "is_topological": false,
+      "lowest_energy": -0.008605
+    },
+    {
+      "h_ex": 0.85,
+      "gap": 0.007434,
+      "n_zero_modes": 6,
+      "defect_weight": 0.1197,
+      "is_topological": false,
+      "lowest_energy": -0.007434
+    },
+    {
+      "h_ex": 0.9,
+      "gap": 0.006696,
+      "n_zero_modes": 6,
+      "defect_weight": 0.1266,
+      "is_topological": false,
+      "lowest_energy": 0.006696
+    },
+    {
+      "h_ex": 0.95,
+      "gap": 0.006563,
+      "n_zero_modes": 6,
+      "defect_weight": 0.1347,
+      "is_topological": false,
+      "lowest_energy": 0.006563
+    },
+    {
+      "h_ex": 1.0,
+      "gap": 0.007013,
+      "n_zero_modes": 6,
+      "defect_weight": 0.1408,
+      "is_topological": false,
+      "lowest_energy": 0.007013
+    },
+    {
+      "h_ex": 1.05,
+      "gap": 0.007775,
+      "n_zero_modes": 6,
+      "defect_weight": 0.1411,
+      "is_topological": false,
+      "lowest_energy": -0.007775
+    },
+    {
+      "h_ex": 1.1,
+      "gap": 0.00846,
+      "n_zero_modes": 6,
+      "defect_weight": 0.1342,
+      "is_topological": false,
+      "lowest_energy": -0.00846
+    },
+    {
+      "h_ex": 1.15,
+      "gap": 0.008631,
+      "n_zero_modes": 6,
+      "defect_weight": 0.1223,
+      "is_topological": false,
+      "lowest_energy": -0.008631
+    },
+    {
+      "h_ex": 1.2,
+      "gap": 0.008195,
+      "n_zero_modes": 6,
+      "defect_weight": 0.1104,
+      "is_topological": false,
+      "lowest_energy": -0.008195
+    },
+    {
+      "h_ex": 1.25,
+      "gap": 0.007868,
+      "n_zero_modes": 4,
+      "defect_weight": 0.1019,
+      "is_topological": false,
+      "lowest_energy": -0.007868
+    },
+    {
+      "h_ex": 1.3,
+      "gap": 0.008091,
+      "n_zero_modes": 4,
+      "defect_weight": 0.11,
+      "is_topological": false,
+      "lowest_energy": 0.008091
+    },
+    {
+      "h_ex": 1.35,
+      "gap": 0.008781,
+      "n_zero_modes": 6,
+      "defect_weight": 0.1607,
+      "is_topological": false,
+      "lowest_energy": -0.008781
+    },
+    {
+      "h_ex": 1.4,
+      "gap": 0.010586,
+      "n_zero_modes": 8,
+      "defect_weight": 0.2374,
+      "is_topological": false,
+      "lowest_energy": -0.010586
+    },
+    {
+      "h_ex": 1.45,
+      "gap": 0.011407,
+      "n_zero_modes": 8,
+      "defect_weight": 0.2112,
+      "is_topological": false,
+      "lowest_energy": -0.011407
+    },
+    {
+      "h_ex": 1.5,
+      "gap": 0.011616,
+      "n_zero_modes": 6,
+      "defect_weight": 0.1425,
+      "is_topological": false,
+      "lowest_energy": 0.011616
+    }
+  ],
+  "parameters": {
+    "N": 100,
+    "t": 1.0,
+    "mu_0": 0.5,
+    "Delta_s": 0.3,
+    "alpha_R": 0.5,
+    "h_ex_Ni": 0.6,
+    "defect_center": 50,
+    "defect_half_width": 5,
+    "topological_threshold": 0.5831
+  },
+  "methodology": "TAS: Each option simulated, failures diagnosed as antitheses",
+  "model": "Spinful BdG, Rashba nanowire, site-dependent exchange and SOC"
+}

@@ -1,0 +1,249 @@
+**PARTNERSHIP SPECIFICATION ANNEX**
+
+Constitutional Roles for Planetary Infrastructure
+
+*Open Architecture • Specification-Based Participation • Commons Governance*
+
+NQI Systems Architecture • Companion Document
+
+Geometry of State Research Program
+
+github.com/GoS-Architect
+
+March 2026
+
+**CONTENTS**
+
+# 1. The Structural Principle
+
+*“The Organization shall have no concern with work for military requirements and the results of its experimental and theoretical work shall be published or otherwise made generally available.”*
+
+— CERN Convention, Article II, 1954
+
+The NQI Systems Architecture requires infrastructure that no single organization can build or maintain alone. This is not a weakness — it is the structural mechanism of the commons. CERN did not name three physics labs and ask them to collaborate. It defined the specification for a particle accelerator and the governance for shared discovery, then opened participation to any institution that could meet the standard and accept the constitutional constraints.
+
+This annex applies the same principle to the NQI infrastructure. It defines seven constitutional roles, each with a technical specification and a commons obligation. Any organization that meets the specification and accepts the obligation can participate. The architecture is open. The standards are not.
+
+## 1.1 The Participation Standard
+
+Every participating organization, regardless of role, must meet three baseline requirements:
+
+**Epistemic Transparency: **All outputs, data products, and contributions to the commons carry epistemic tags (PROVED, DEMONSTRATED, CONJECTURED, SPECULATIVE, RETRACTED). This is the minimum cost of entry. It is free to implement and non-negotiable.
+
+**Commons Contribution: **Participation in the NQI infrastructure is not a licensing agreement. It is a contribution to a shared commons. Results obtained through shared infrastructure are published and generally available, following the CERN model. Proprietary applications built on top of commons outputs are permitted; proprietary capture of the commons outputs themselves is not.
+
+**Constitutional Verification: **Contributions to the commons are subject to the three-register verification ecology (mathematical, humanitarian, diplomatic). A dataset that passes formal verification but was collected in a way that harms communities fails the Gandhi Constitution. A tool that passes humanitarian review but cannot be formally verified fails the Voevodsky Constitution. The T = (M, H, D) convergence matrix applies.
+
+## 1.2 The Invitation Model
+
+This annex lists current candidates for each constitutional role. These are examples, not exclusive partnerships. The specification is the invitation. If an organization not listed here meets the specification and accepts the commons obligation, the architecture accommodates them. If a listed candidate fails to meet the specification or violates the commons obligation, the architecture replaces them. No organization is structurally irreplaceable. The infrastructure is designed so that defection by any single participant does not collapse the system — the ISS principle applied to planetary sensing.
+
+*[EPISTEMIC STATUS: The specification-based participation model is CONJECTURED.*
+
+*Kill condition: demonstration that the open architecture produces worse outcomes than*
+
+*named-partner agreements in a real deployment scenario.]*
+
+# 2. The Seven Constitutional Roles
+
+Each role maps to a specific layer of the NQI infrastructure stack. Together they constitute the full system: verification, simulation, sensing, connectivity, platform, energy, and instrument building. The roles are structurally interdependent — no single role operates the full stack alone.
+
+**ROLE 1: VERIFICATION INFRASTRUCTURE**
+
+**Constitutional Principle: **The compiler is the credential. The verification substrate must be cloud-accessible, quantum-simulation capable, and commons-governed. No single entity owns the definition of PROVED.
+
+**Technical Specification: **Cloud compute capable of running formal verification pipelines (Lean 4, Cubical Agda). Quantum simulation environments for topological phase classification. Enterprise-grade server infrastructure for continuous verification of commons contributions. GPU acceleration for digital twin simulation and TDA (Topological Data Analysis) computations.
+
+| **CANDIDATE** | **EXISTING CAPABILITY** | **COMMONS CONTRIBUTION** |
+| --- | --- | --- |
+| **Microsoft** | Azure Quantum cloud platform. Quantum simulation environments. Enterprise cloud infrastructure at global scale. | Quantum verification pipeline for topological phase classification. Azure Quantum made available to commons participants at tiered pricing (free for under-resourced deployers per Article VII). |
+| **IBM** | Enterprise server infrastructure. Quantum computing research (IBM Quantum). Extensive cloud and HPC capabilities. | Server backbone for continuous verification. Enterprise-grade reliability for the commons infrastructure layer that institutions depend on. |
+| **Nvidia** | GPU compute leadership. Scientific computing (CUDA, cuQuantum). Omniverse simulation platform. | GPU acceleration for digital twin simulations, TDA computations, and large-scale formal verification workloads. Omniverse as the digital twin rendering substrate. |
+
+**Commons Obligation: **Verification infrastructure contributed to the commons must be accessible to all participants. Tiered pricing following the CERN graduated contribution model: hyperscale contributors fund open-source verification tooling (Lean 4 topos bridges, RAG boundary-auditors, epistemic tagging infrastructure). Under-resourced participants receive access from the commons fund at no cost.
+
+*[Kill condition: A verification pipeline that produces formally checked results inaccessible to commons participants — proprietary capture of the verification layer itself.]*
+
+**ROLE 2: PLANETARY SENSING ****&**** DIGITAL TWIN**
+
+**Constitutional Principle: **The biosphere is the client. The sensing layer must read the proofs the biosphere has already written. Global coverage, field-deployable, multi-modal (satellite, ground, ocean, atmospheric).
+
+**Technical Specification: **Satellite and aerial imaging at planetary scale. Ground-truth mapping infrastructure. Real-time sensor fusion (LiDAR, camera, radar, environmental). Digital twin platform capable of integrating terrestrial, ocean, atmospheric, and biological data layers. Street-level and terrain-level mapping for mobile platform navigation.
+
+| **CANDIDATE** | **EXISTING CAPABILITY** | **COMMONS CONTRIBUTION** |
+| --- | --- | --- |
+| **Google Earth / Maps** | Planetary-scale satellite imagery. Street View ground-truth data. Terrain and bathymetric mapping. Earth Engine for geospatial analysis at scale. | Base sensing layer for the digital twin. Satellite imagery commons. Earth Engine made available for citizen science analysis. Mapping infrastructure for mobile platform routing. |
+| **Waymo** | Sensor fusion architecture (LiDAR + camera + radar). Real-time environmental perception. Field-proven autonomous sensing in diverse conditions. | Sensor fusion technology adapted for mobile research platforms. The same perception stack that reads roads can read ecosystems — identifying species, measuring canopy density, detecting water quality indicators from mobile platforms in the field. |
+
+**Commons Obligation: **Sensing data contributed to the digital twin is commons property. Proprietary products built on top of commons sensing data are permitted (Google Maps remains a commercial product). The raw sensing layer feeding the digital twin is open.
+
+*[Kill condition: A sensing architecture that produces planetary data accessible only to the contributing organization — proprietary capture of the biosphere’s own data.]*
+
+**ROLE 3: CONNECTIVITY INFRASTRUCTURE**
+
+**Constitutional Principle: **The Gandhi Constitution demands radical accessibility. If the commons cannot reach rural communities, indigenous territories, ocean research platforms, and under-resourced regions, it serves only the connected. Connectivity is the equity layer.
+
+**Technical Specification: **Global satellite coverage with low-latency uplink to the digital twin. Direct-to-device satellite communication (no ground station required). Cellular coverage extension to rural and remote areas. Sufficient bandwidth for real-time data upload from mobile research platforms and Q-Series school buses.
+
+| **CANDIDATE** | **EXISTING CAPABILITY** | **COMMONS CONTRIBUTION** |
+| --- | --- | --- |
+| **SpaceX (Starlink)** | Low-earth orbit satellite constellation with global coverage. Low-latency broadband. Direct-to-cell capability in development. | Satellite connectivity for mobile research platforms and citizen science nodes in areas without terrestrial coverage. The Amazon basin, rural Africa, ocean research vessels, polar stations — everywhere the biosphere needs monitoring and the internet doesn’t reach. |
+| **T-Mobile** | Satellite-to-cell partnership (with SpaceX). Extensive rural tower infrastructure. Established carrier relationships and billing infrastructure. | Last-mile connectivity for citizen scientists using consumer devices. Rural tower infrastructure as co-location sites for commons infrastructure (charging stations, edge compute nodes, environmental sensors). Satellite-to-cell bridging for areas between Starlink and terrestrial coverage. |
+
+**Commons Obligation: **Connectivity for commons participants in under-resourced regions is provided at no cost from the commons fund. Connectivity is infrastructure, not a product, within the commons context. Commercial services remain commercial; the commons layer is subsidized proportionally.
+
+*[Kill condition: Connectivity infrastructure that excludes commons participants based on ability to pay — the commons becomes a service available only to the connected.]*
+
+**ROLE 4: MOBILE PLATFORM ****&**** VEHICLE INFRASTRUCTURE**
+
+**Constitutional Principle: **The lab goes where the work is. Field-deployable, self-sufficient, no institutional permission required. Electric, closed-loop energy, go-anywhere capability.
+
+**Technical Specification: **Electric vehicle architecture with sufficient payload for mobile research laboratory. Go-anywhere capability (all-wheel drive, off-road clearance). School bus variant for the Q-Series education fleet. EV battery system capable of powering onboard compute and instrumentation during field deployment. Regenerative braking contributing to the thermodynamic bootstrap (measurement generates energy).
+
+| **CANDIDATE** | **EXISTING CAPABILITY** | **COMMONS CONTRIBUTION** |
+| --- | --- | --- |
+| **Rivian** | Adventure-oriented electric SUV and truck platforms. Go-anywhere EV architecture. Sufficient payload and power for mobile lab conversion. | Vehicle platform for mobile research stations. R1S/R1T class vehicles as the base chassis for NQI field labs. Adventure vehicle ethos aligned with field science deployment. |
+| **Scout Motors** | Rugged electric SUV platform (launching 2026). Heritage of field-deployable vehicles. Independent EV architecture. | Alternative platform for mobile research stations. Diversified supply chain for the fleet — no single manufacturer dependency. |
+| **Blue Bird / Thomas Built (Daimler)** | Electric school bus manufacturing at scale. Existing fleet deployment infrastructure. V2G (vehicle-to-grid) capability. | Q-Series school bus fleet. Electric buses equipped with NQI student stations, AR/VR headsets, E8 controllers. The classroom that goes to the biosphere. |
+
+**Commons Obligation: **Mobile platforms funded through the commons operate under the full Glassbox methodology. Data collected from mobile platforms is contributed to the digital twin. Vehicle specifications are published openly so that any manufacturer meeting the specification can produce compatible platforms.
+
+*[Kill condition: A vehicle platform that locks commons data behind proprietary telematics — the mobile lab becomes a data extraction device rather than a commons contributor.]*
+
+**ROLE 5: ENERGY INFRASTRUCTURE**
+
+**Constitutional Principle: **The thermodynamic bootstrap: the verification infrastructure generates the energy it needs from the work it performs. If the energy comes from extraction, the framework has failed before it begins. Closed-loop, renewable, field-deployable.
+
+**Technical Specification: **Solar power systems for fixed installations and mobile platform charging. Wind generation for permanent commons infrastructure sites. Hydroelectric micro-generation where geography permits. External battery systems for field deployment beyond grid reach. Vehicle-to-grid (V2G) capability for mobile platforms to serve as distributed energy nodes. Energy storage at sufficient scale to power edge compute and verification workloads.
+
+| **CANDIDATE** | **EXISTING CAPABILITY** | **COMMONS CONTRIBUTION** |
+| --- | --- | --- |
+| **Tesla Energy** | Powerwall (residential/small-scale storage). Megapack (grid-scale storage). Solar Roof and solar panel systems. Supercharger network. | Energy storage infrastructure for commons nodes. Megapack installations at permanent digital twin stations. Supercharger access for mobile research fleet (or open-standard equivalent). |
+| **Enphase Energy** | Microinverter technology for distributed solar. Battery storage systems. Grid-independent solar architecture. | Distributed solar infrastructure for citizen science nodes. Microinverter systems enable each commons participant to generate and store energy locally — the thermodynamic bootstrap at household scale. |
+| **Community Solar Cooperatives** | Locally governed renewable energy generation. Community ownership models. Existing rural energy infrastructure. | Energy commons at the local level. Community solar provides the energy substrate for under-resourced commons participants. Governance structure already aligned with commons principles — shared infrastructure, retained sovereignty, proportional contribution. |
+
+**Commons Obligation: **Energy infrastructure contributed to the commons operates on closed-loop principles. The energy cost of verification constrains verification complexity — you cannot deploy a verification workload that the local energy budget cannot sustain. This is the structural asymmetry that prevents centralization: no single actor can impose verification overhead that exceeds local generation capacity.
+
+*[Kill condition: Energy infrastructure that creates dependency on centralized fossil fuel supply — the commons runs on extraction and has failed its own first principle.]*
+
+**ROLE 6: CHARGING ****&**** CO-LOCATION INFRASTRUCTURE**
+
+**Constitutional Principle: **The mobile platforms and school buses need charging where the biosphere lives, not just where the highways go. Co-locate charging, connectivity, edge compute, and environmental sensing at a single physical node. Every charging station is a commons node.
+
+**Technical Specification: **EV charging infrastructure in rural and remote areas. Co-location capability: charging + cellular/satellite relay + edge compute + environmental sensors at a single site. Solar-powered charging for off-grid deployment. Sufficient charging speed for fleet operations (mobile research platforms, school buses).
+
+| **CANDIDATE** | **EXISTING CAPABILITY** | **COMMONS CONTRIBUTION** |
+| --- | --- | --- |
+| **T-Mobile (Tower Infrastructure)** | Extensive rural cell tower network. Existing power supply and land rights at tower sites. Maintenance infrastructure. | Cell tower sites as co-location nodes: add EV charging, edge compute, and environmental sensors to existing tower infrastructure. The rural connectivity backbone becomes the rural commons backbone. |
+| **ChargePoint / NACS Network** | Largest open EV charging network. NACS (North American Charging Standard) compatibility. Software platform for fleet management. | Charging access for the mobile research fleet and Q-Series school buses. Open charging standard ensures no single manufacturer lock-in. |
+| **Local Utilities ****&**** Rural Co-ops** | Existing electrical distribution infrastructure. Community governance. Local knowledge of grid capacity and renewable potential. | Last-mile power delivery for commons charging nodes. Rural electric cooperatives already operate on commons principles — member-owned, locally governed, proportional contribution. |
+
+**Commons Obligation: **Charging infrastructure funded through the commons is available to all commons participants. Co-location nodes contribute sensing data to the digital twin as a condition of participation. Every charging station is simultaneously a data collection point and an energy node.
+
+*[Kill condition: Charging infrastructure that excludes commons vehicles or that does not contribute sensing data to the digital twin — a charging station that takes from the commons without giving back.]*
+
+**ROLE 7: INSTRUMENT BUILDING**
+
+**Constitutional Principle: **The Junkova Constitution: when the instruments don’t exist, you build them. The NQI stylus, the E8 controller, the AR/VR epistemic overlay, the Q-Series tablets — these instruments do not yet exist. Someone must build them.
+
+**Technical Specification: **Fractonic Weyl semimetal fabrication for the NQI stylus. E8 icosahedral controller design and manufacturing. AR/VR headset integration with epistemic overlay (real-time topology visualization, kill condition status, winding number display). Tablet/computing devices optimized for field citizen science (ruggedized, low-power, commons-connected). Education-grade hardware deployable in school bus environments.
+
+| **CANDIDATE** | **EXISTING CAPABILITY** | **COMMONS CONTRIBUTION** |
+| --- | --- | --- |
+| **Apple** | Vision Pro AR/VR platform. M-series chip architecture (foundation for Q-Series). Accessibility-native design DNA. Education ecosystem (iPad fleet management, classroom tools). | AR/VR platform for the epistemic overlay. Q-Series chip development (topological simulation engine evolved from M-series Neural Engine). Education hardware for the Q-Series school bus fleet. Accessibility architecture ensuring the instruments serve all cognitive modes. |
+| **Academic / National Lab Consortia** | Condensed matter physics research facilities. Fractonic material synthesis capability. Topological material characterization. Existing research programs on Weyl semimetals and Majorana systems. | Fabrication R&D for the NQI stylus substrate. Material science research for fractonic Weyl semimetal development. The instruments that don’t exist yet are built here first. |
+| **Open Hardware Community** | Open-source hardware design and fabrication. Distributed manufacturing (3D printing, CNC). Community-governed design iteration. | Open-source E8 controller design. Community-fabricated instrument components. Ensures the instruments are not proprietary — the specification is published, and any fabricator meeting the specification can produce compatible instruments. |
+
+**Commons Obligation: **Instruments developed for the commons are published as open specifications. Proprietary implementations of the specification are permitted (Apple can sell a premium version); the specification itself is commons property. This follows the USB model: the standard is open; the products are commercial.
+
+*[Kill condition: An instrument that locks commons data behind proprietary interfaces — the tool becomes a gate rather than a bridge.]*
+
+# 3. Governance: How Participation Works
+
+## 3.1 Entry
+
+Any organization that meets the technical specification for a constitutional role and accepts the commons obligations described in this annex may apply for participation. There is no exclusive partnership. There is no license fee. The cost of entry is epistemic transparency and commons contribution.
+
+## 3.2 The CERN Model: Proportional Contribution
+
+Participation obligations scale with resources. Hyperscale technology companies contribute infrastructure, compute, and funding to the commons proportionally to their AI deployment revenue. Small organizations, universities, and community cooperatives contribute data, local knowledge, and citizen science participation. Under-resourced participants receive infrastructure from the commons fund at no cost. The obligation to build the tools falls on those with the resources to build them. The obligation to use them honestly falls on everyone.
+
+## 3.3 Exit and Replacement
+
+No participant is structurally irreplaceable. The architecture is designed so that the departure of any single organization — even the largest — does not collapse the system. This is the ISS principle: structural interdependence means every partner matters, but the architecture survives the loss of any one module. If a participant violates the commons obligations, the three-register verification ecology flags the violation: the Voevodsky agent catches formal non-compliance, the Gandhi agent catches accessibility failures, the Curie agent catches the courage deficit of looking the other way. Removal requires cross-constitutional endorsement, just like the RETRACTED protocol.
+
+## 3.4 Conflict Resolution
+
+When participants disagree — about specification interpretation, commons contribution adequacy, or resource allocation — resolution follows the sheaf-theoretic protocol from the Global Quantum & AI Commons. Local sections (each participant’s perspective) must glue into a global section (the commons position). If they cannot glue, the failure is a cohomological obstruction — a structural mismatch, not a political failure. The topology arbitrates.
+
+# 4. The Full Infrastructure Map
+
+The seven constitutional roles compose into a complete system. The map below shows how the roles interconnect and where the structural dependencies lie.
+
+| **ROLE** | **LAYER** | **DEPENDS ON** | **FEEDS INTO** | **CURRENT CANDIDATES** | **COMMONS OUTPUT** |
+| --- | --- | --- | --- | --- | --- |
+| **Verification** | L0 / L5 | Energy, Connectivity | All roles (epistemic tags) | Microsoft, IBM, Nvidia | Verified knowledge commons |
+| **Sensing** | L3 / L4 | Connectivity, Platform | Digital twin, Verification | Google, Waymo | Planetary data commons |
+| **Connectivity** | Infrastructure | Energy | All roles (access) | SpaceX, T-Mobile | Global access layer |
+| **Platform** | L4 | Energy, Charging, Instruments | Sensing, Citizen science | Rivian, Scout, Blue Bird | Mobile research capability |
+| **Energy** | Infrastructure | None (bootstrap) | All roles (power) | Tesla, Enphase, Co-ops | Closed-loop energy commons |
+| **Charging** | Infrastructure | Energy, Connectivity | Platform, Sensing | T-Mobile, ChargePoint, Co-ops | Rural infrastructure nodes |
+| **Instruments** | L1 / L4 | Verification, Energy | Platform, Education | Apple, Labs, Open HW | Open instrument specs |
+
+The dependency structure reveals the load-bearing roles. Energy and Connectivity are foundational — without them, nothing else operates. Verification is the epistemic backbone — without it, the commons has no integrity. Instruments are the frontier — the things that don’t exist yet. The thermodynamic bootstrap is visible: Energy feeds everything, and the mobile platforms feed Energy back through regenerative operation and solar harvesting.
+
+# 5. What Participation Looks Like
+
+*“The Organization shall provide for collaboration among European States in nuclear research of a pure scientific and fundamental character.”*
+
+— CERN Convention, Article II
+
+The pitch to each organization is not sponsorship. It is participation in planetary infrastructure governed by the same epistemic standards as CERN’s research outputs. What each participant receives:
+
+**Technology as proof term: **Your existing infrastructure becomes part of the planetary verification system. Azure Quantum doesn’t just run enterprise workloads — it verifies topological phase classifications for the commons. Google Earth doesn’t just serve maps — it provides the base sensing layer for the planetary digital twin. This is the CERN value proposition: your technology contributes to fundamental discovery, and the results are published openly.
+
+**Structural interdependence: **No single participant can build or operate the full system alone. This is not a limitation — it is the trust mechanism. Microsoft needs Nvidia’s GPU compute. Nvidia needs Google’s sensing data. Google needs SpaceX’s connectivity. SpaceX needs Tesla’s energy infrastructure. The mutual dependency makes defection irrational, just as it does on the ISS.
+
+**Reputational architecture: **Participation in the epistemic commons is a public commitment to epistemic transparency. In an era where AI trust is collapsing, being a founding member of the infrastructure that rebuilds it has value that no advertising budget can purchase.
+
+**The commons dividend: **Open-source verification tooling, planetary sensing data, citizen science datasets, and formally verified knowledge artifacts — all available to participants for commercial application. The commons feeds the products, and the products fund the commons. This is the biological cycle applied to technology: the byproducts become inputs for the next cycle.
+
+# 6. Document Status
+
+*[EPISTEMIC STATUS:*
+
+*The specification-based participation model is CONJECTURED.*
+
+*Kill condition: demonstration that open architecture produces worse outcomes than named partnerships.*
+
+*The seven constitutional roles are CONJECTURED.*
+
+*Kill condition: identification of a required infrastructure function that no role covers.*
+
+*The current candidate list is SPECULATIVE — no partnerships have been established.*
+
+*The candidate list is illustrative, not exclusive.*
+
+*The CERN-model governance is CONJECTURED.*
+
+*Kill condition: structural disanalogy between particle physics cooperation and planetary sensing cooperation.*
+
+*The thermodynamic bootstrap (energy as foundational role) is SPECULATIVE.*
+
+*Kill condition: demonstration that closed-loop energy cannot sustain the verification workload*
+
+*at field-deployable scale with current technology.]*
+
+ 
+
+*The compiler is the credential.*
+
+*The kill condition is the integrity.*
+
+*The retraction is the proof of honesty.*
+
+*The human is the steward.*
+
+*The biosphere is the client.*
+
+*The topology arbitrates.*

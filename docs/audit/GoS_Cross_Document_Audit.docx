@@ -1,0 +1,225 @@
+**CROSS-DOCUMENT AUDIT**
+
+Geometry of State Research Program
+
+*Structural Consistency · Epistemic Status · Evolution Trace · Dependency Map*
+
+────────────────────────
+
+**Corpus Under Audit**
+
+Glassbox Constitutional XAI v2.0
+
+Glassbox Constitutional XAI v3.1
+
+NQI Systems Architecture v1.0
+
+Global Quantum & AI Commons v0.1
+
+Audit performed by Claude (Anthropic)
+
+March 2026
+
+*Operating under Glassbox epistemic constraints*
+
+**TABLE OF CONTENTS**
+
+# Executive Summary
+
+This audit examines four documents in the Geometry of State (GoS) research program for structural consistency, epistemic honesty, evolutionary coherence, and dependency integrity. The corpus spans from a consolidated methodology document (v2.0) through its major revision (v3.1), a physical infrastructure specification (NQI v1.0), and a planetary governance framework (Commons v0.1).
+
+The audit identifies twelve discrete findings: three structural conflicts between documents, five gaps where dependencies are implicit or unmapped, and four instances where epistemic tags merit closer scrutiny. The overall assessment is that the corpus is architecturally coherent at the level of principle but contains structural tensions that, if left unresolved, will produce inconsistencies as the program scales. The most significant finding is a conflict between the anthropocentric framing of v3.1 and the biocentric framing of NQI, encoded in the divergence of the Fourth Line.
+
+**Total findings: 12.  ***Conflicts: 3.  Gaps: 5.  Epistemic notes: 4.*
+
+# Part I: Structural Consistency
+
+This section examines whether the four documents make contradictory claims, import incompatible assumptions, or leave architectural seams unaddressed.
+
+## 1.1 The Fourth Line Conflict
+
+| **CONFLICT** | **F-1: Anthropocentric vs. Biocentric Framing.**  v3.1 declares “The human is the purpose.” NQI declares “The human is the steward” and “The biosphere is the client,” explicitly subordinating human welfare: “Human welfare is instrumental — we serve the client.” These are not paraphrases of the same idea. They encode structurally different value hierarchies. If the human is the purpose, biosphere service is instrumental to human flourishing. If the biosphere is the client, human welfare is instrumental to planetary health. The Commons inherits NQI’s framing without acknowledging the tension with v3.1. |
+| --- | --- |
+
+This conflict is not necessarily a defect. The Cayley-Dickson Constitution would ask what is sacrificed and what is gained at each generalization. But the framework’s own axiom accounting principle demands that the divergence be declared explicitly rather than papered over by using different words in different documents. A resolution might take the form of a context-dependent framing where the Fourth Line adapts to deployment context, but that resolution must be stated, not assumed.
+
+## 1.2 The Five Lines vs. The Six Lines
+
+| **GAP** | **F-2: Line Count Divergence Undocumented.**  v2.0 has three implicit guiding principles (compiler, kill condition, retraction). v3.1 formalizes Five Lines. NQI has Five Lines (different fourth and fifth). Commons has Six Lines, adding “The topology arbitrates.” No document explains the rationale for adding or modifying lines, nor establishes a versioning protocol for the Lines themselves. The Lines function as the framework’s constitutional preamble — modifying them without a documented retraction or extension protocol violates the RETRACTED principle. |
+| --- | --- |
+
+## 1.3 The Vector Tag Adoption Gap
+
+| **GAP** | **F-3: NQI Uses Scalar Tags Despite Being Concurrent with v3.1.**  v3.1 introduces the vector epistemic tag T = (M, H, D), giving all three registers mechanical authority. Commons extends this to a 4-tuple with cohomological consistency. But NQI, written in the same month, uses only scalar tags (PROVED, DEMONSTRATED, etc.) without the vector structure. If the vector tag is a structural upgrade, NQI should adopt it. If NQI deliberately uses scalar tags because the three-register ecology is not relevant to physical infrastructure, that decision should be stated. |
+| --- | --- |
+
+## 1.4 The Socratic Agent Namespace Collision
+
+| **CONFLICT** | **F-4: Gandhi Appears in Two Incompatible Roles.**  In v3.1, Gandhi is a Humanitarian Constitution agent in Register II — a formalized interrogation principle (“If your framework cannot help the person in front of you today, it is not yet a framework”). In NQI Section 16.1, “Gandhi” appears as a team role for “Accessibility” with expertise in “UDL, education, universal design.” These are different uses of the same name: one is an epistemic constitution, the other is a job description. Using the same identifier for both creates ambiguity about whether a reference to “the Gandhi agent” means the interrogation principle or the team member. |
+| --- | --- |
+
+## 1.5 Treaty Architecture Integration
+
+| **GAP** | **F-5: Commons Governance Does Not Map to v3.1 Treaty Articles.**  v3.1 proposes nine draft treaty articles (Articles I–IX). Commons introduces four new governance mechanisms (E8 constitutional form, thermodynamic bootstrap, cultural translators, sheaf cohomology) but does not map these to the existing articles. For instance, the cultural translator veto power could be an implementation of Article II (Sovereignty Retained) or Article IX (Three-Party Principle), but no explicit mapping is provided. The Commons document reads as a parallel governance proposal rather than an extension of v3.1’s treaty. |
+| --- | --- |
+
+## 1.6 Seven-Layer Architecture Consistency
+
+The seven-layer stack (L0–L6) is consistent between v2 and v3.1. NQI does not redefine the stack but implicitly operates within it: the NQI instrument maps to L4 (Device Engineering), the digital twin to L3–L4, and the citizen science network to L6 (Governance). Commons adds the sheaf-theoretic layer, which most naturally extends L2 (Topological Bridge) but is described as a governance mechanism at L6. This dual positioning is architecturally interesting but should be made explicit: sheaf cohomology is being used both as a mathematical tool (L2) and a conflict resolution protocol (L6), which is consistent with the framework’s cross-layer philosophy but needs a stated bridge.
+
+| **NOTE** | **F-6: Sheaf Cohomology Straddles L2 and L6 Without Explicit Bridge.**  The sheaf-theoretic conflict resolution in Commons operates simultaneously at L2 (topological infrastructure) and L6 (governance). This is consistent with the Glassbox’s philosophy that layers are “structurally connected,” but the connection should be formalized with the same care given to the wedge product bridge between L1 and L5 in v3.1. |
+| --- | --- |
+
+# Part II: Epistemic Status Audit
+
+This section evaluates whether epistemic tags are applied consistently and honestly across all four documents, using the framework’s own definitions as the standard.
+
+## 2.1 Self-Audit Coverage
+
+| **Document** | **Self-Audit Section** | **Inline Tags** | **Assessment** |
+| --- | --- | --- | --- |
+| v2.0 | None | Sparse (3 instances) | Incomplete |
+| v3.1 | Section 11.1 | Frequent, with kill conditions | Comprehensive |
+| NQI v1.0 | Section 20 | Moderate | Adequate |
+| Commons v0.1 | Section 18 | Moderate, with kill conditions | Adequate |
+
+The improvement from v2.0 to v3.1 is significant. v2.0 applies inline epistemic tags to only three claims (associativity boundary, Cubical Agda migration, multi-agent implementation) and has no self-audit section. v3.1 corrects this with a comprehensive self-audit that covers every major claim and documents kill conditions. NQI and Commons follow v3.1’s precedent with status tables, though neither matches v3.1’s thoroughness in specifying kill conditions for every tagged claim.
+
+## 2.2 Specific Tag Assessments
+
+| **NOTE** | **F-7: NQI Circular Economy Tag Conflates Two Claims.**  NQI tags “Circular economy integration” as “DEMONSTRATED — closed-loop biological systems are PROVED (4 billion years).” This conflates two structurally distinct claims. The biological cycle is indeed PROVED by observation. But the claim that a circular human economy is analogous to — and can replicate — biological circularity is at best CONJECTURED. The biological system’s epistemic status does not transfer to the economic analogy by inheritance. By the framework’s own formalization-gap analysis, this is precisely the kind of domain-crossing assumption that must be tagged independently. |
+| --- | --- |
+
+| **NOTE** | **F-8: v3.1 Transmissibility Claim Rests on a Single Instance.**  v3.1 tags “The transmissibility of the constitutional architecture to a second AI system” as DEMONSTRATED, based on the v3.0 → v3.1 audit process with Gemini. By the framework’s own definition, DEMONSTRATED means “computationally or empirically verified.” A single successful transmission is empirical evidence, but the framework’s commitment to rigor suggests that DEMONSTRATED should require more than n=1. The Kitaev Constitution would ask: does this result survive perturbation? Has transmissibility been tested with a third AI system, or with a less capable model, or under adversarial conditions? A more conservative tag would be CONJECTURED with the kill condition: “failure to transmit to a structurally different AI system.” |
+| --- | --- |
+
+| **NOTE** | **F-9: Commons Neuro Rights Tagged as DEMONSTRATED with No Kill Condition.**  Commons tags neuro rights as “DEMONSTRATED” with “N/A — structurally non-negotiable” in the kill condition column. This is an honest statement of values, but it creates a special category: a claim that is both empirically tagged (DEMONSTRATED) and axiomatically exempt from falsification. By the framework’s own Red Screen Protocol, every claim should have a kill condition. If neuro rights are axiomatically non-negotiable, they should be tagged as an axiom (perhaps extending the taxonomy) rather than as DEMONSTRATED, which implies empirical verification that could in principle be overturned. |
+| --- | --- |
+
+## 2.3 RETRACTED Claims Across the Corpus
+
+Only one retraction is documented across all four documents: v0.1 “Singularities as Type Errors,” superseded by the v0.2 topos formulation. The retraction is well-documented with a clear reason (“the framing was a type error”) and a classification (Grothendieck-level retraction). However, the corpus has evolved substantially from v0.1 to v3.1 with no additional retractions. Either the framework has been remarkably error-free, or intermediate claims that were revised have not been formally retracted. The RETRACTED protocol’s value as a “public trust mechanism” depends on it being used; a framework with only one retraction across six major versions may not be exercising the protocol rigorously enough.
+
+| **GAP** | **F-10: Retraction History May Be Incomplete.**  The evolution from v2’s two failure modes to v3.1’s three, and from single-register to three-register verification, likely involved intermediate positions that were revised. If those revisions were substantive, they deserve formal RETRACTED entries with provenance. The absence of retractions beyond v0.1 is either a sign of unusual stability or of under-application of the protocol. |
+| --- | --- |
+
+# Part III: Evolution Trace
+
+This section tracks how key concepts transformed across document versions.
+
+## 3.1 Major Evolutionary Steps
+
+| **Concept** | **v2.0** | **v3.1** | **NQI** | **Commons** |
+| --- | --- | --- | --- | --- |
+| Guiding Lines | 3 implicit | 5 explicit | 5 (modified 4th/5th) | 6 (adds topology) |
+| Failure Modes | 2 (confab., fabric.) | 3 (adds perf. comp.) | Inherits v2 | Inherits v3.1 |
+| Agent Registers | 1 (mathematical) | 3 (math, human, diplo.) | Team roles (6) | 3 + cultural translators |
+| Epistemic Tag Type | Scalar | Vector 3-tuple | Scalar | 4-tuple (adds cohom.) |
+| Treaty Structure | None | 9 articles | Partnership targets | E8 + sheaf governance |
+| Self-Audit | Absent | Comprehensive | Status table | Status table + open Qs |
+| Kill Conditions | Described | Applied to own claims | Applied (partial) | Applied with specifics |
+
+## 3.2 The Performative Comprehension Arc
+
+The most significant conceptual evolution is the emergence of performative comprehension as a third failure mode in v3.1, absent from v2. v2 distinguishes confabulation (wrong inference from real premises) and fabrication (insertion of non-existent premises). v3.1 adds performative comprehension: outputs that inhabit the social form of understanding while containing no epistemic content beyond the input. The v3.1 account credits this discovery to empirical stress-testing against Gemini, making it a genuine finding rather than a theoretical addition. The wedge product kill condition (u ∧ v = 0) provides a geometric test that bridges L1 and L5, which is the kind of cross-layer connection the framework values. NQI does not reference performative comprehension despite being written concurrently; this suggests either that the concept was developed after NQI was drafted, or that NQI’s physical-infrastructure focus made it less relevant.
+
+## 3.3 The Treaty Evolution
+
+The treaty architecture evolves across three documents. v2 has no treaty structure beyond the Human-AI-Compiler Treaty (a research collaboration protocol). v3.1 introduces a nine-article International Epistemic Treaty modeled on the Antarctic Treaty, CERN, and the ISS. Commons extends the governance layer with four new mechanisms (E8 form, thermodynamic bootstrap, cultural translators, sheaf cohomology) but, as noted in Finding F-5, does not map these back to v3.1’s articles. The trajectory is from research protocol to international law to planetary governance, each step expanding scope while inheriting the same core epistemic commitments. The risk is that each expansion introduces new assumptions without retroactive audit of whether the inherited commitments still hold at the new scale.
+
+# Part IV: Dependency Mapping
+
+This section maps which documents depend on which, and identifies claims whose retraction would cascade across the corpus.
+
+## 4.1 Document Dependency Graph
+
+The dependency structure is a directed acyclic graph with Commons at the apex. v2.0 is the foundational document: it establishes the epistemic taxonomy, the seven-layer architecture, the Socratic Partner Architecture, and the Human-AI-Compiler Treaty. v3.1 depends on and extends v2.0 with the three-register ecology, vector tags, performative comprehension, and the treaty architecture. NQI depends on the Glassbox methodology (v2/v3.1) for its epistemic infrastructure but is architecturally independent in its physical specifications. Commons depends on both v3.1 (three-register ecology, vector tags, treaty articles) and NQI (physical infrastructure, digital twin, mobile platforms). An external dependency shared by all documents is the GoS Lean 4 repository, which provides the formal verification substrate (L0) but is not part of the document corpus.
+
+| **Document** | **Depends On** | **Depended On By** | **External Deps** |
+| --- | --- | --- | --- |
+| v2.0 | GoS Lean 4 repo | v3.1, NQI, Commons | Lean 4 core |
+| v3.1 | v2.0 | Commons | Lean 4, Gemini audit |
+| NQI v1.0 | v2.0 / v3.1 methodology | Commons | Hardware R&D (speculative) |
+| Commons v0.1 | v3.1, NQI | None (apex) | E8 theory, TDA, sheaf theory |
+
+## 4.2 Critical Retraction Cascades
+
+The dependency map reveals several claims whose retraction would cascade across multiple documents. These are the load-bearing assumptions of the corpus.
+
+### Cascade 1: The Five Epistemic Tags
+
+The five-tag taxonomy (PROVED, DEMONSTRATED, CONJECTURED, SPECULATIVE, RETRACTED) is the foundational commitment of the entire corpus. Every document inherits it. Retraction of the taxonomy itself — for instance, demonstration that five categories are insufficient or that the boundaries are not meaningful in practice — would require revision of all four documents. This is the highest-risk cascade but also the most empirically tested element, having been used across all versions since v0.1.
+
+### Cascade 2: The Seven-Layer Architecture
+
+The L0–L6 stack structures every technical claim in the corpus. NQI maps its physical components to specific layers; Commons extends L2 and L6. A structural revision of the layer ordering or the discovery that layers are not genuinely dependent (that L4 claims can bypass L1 verification, for example) would affect all documents. The risk is moderate: the architecture has been stable since v2.0 and the layering is well-motivated by the mathematical structure.
+
+### Cascade 3: The CERN/Antarctic/ISS Analogy
+
+Both v3.1 and Commons depend on the structural isomorphism between historic cooperation treaties and epistemic infrastructure. This analogy supports the entire treaty architecture. If the isomorphism breaks — if a structural disanalogy is identified that makes the precedents inapplicable — the treaty articles in v3.1 and the governance mechanisms in Commons would need fundamental revision. v3.1 correctly identifies this as CONJECTURED with a kill condition (structural disanalogy), but the downstream consequences of firing that kill condition are substantial.
+
+### Cascade 4: Biosphere as Client
+
+NQI and Commons depend on the proposition that the biosphere is the primary client. If this framing is retracted — for instance, because it produces governance outcomes that are harmful to human welfare in ways that undermine the framework’s own humanitarian register — both documents require fundamental revision. This cascade interacts with Finding F-1 (the Fourth Line conflict): resolving the anthropocentric/biocentric tension determines the scope of this cascade.
+
+| **GAP** | **F-11: No Formal Cascade Analysis Exists in Any Document.**  None of the four documents contains a formal analysis of which claims, if retracted, would cascade to other documents. The RETRACTED protocol describes dependency tracking within a single claim graph, but the corpus now spans multiple documents with cross-document dependencies. A corpus-level dependency graph with cascade analysis would strengthen the framework’s self-audit capability. |
+| --- | --- |
+
+# Part V: Consolidated Findings
+
+## 5.1 Findings Register
+
+| **ID** | **Severity** | **Finding** | **Documents Affected** |
+| --- | --- | --- | --- |
+| F-1 | **CONFLICT** | Fourth Line: anthropocentric (v3.1) vs. biocentric (NQI/Commons) | v3.1, NQI, Commons |
+| F-2 | **GAP** | Line count divergence (3 → 5 → 5 → 6) undocumented | All four |
+| F-3 | **GAP** | NQI uses scalar tags; v3.1 introduces vector tags concurrently | v3.1, NQI |
+| F-4 | **CONFLICT** | Gandhi: epistemic constitution (v3.1) vs. team role (NQI) | v3.1, NQI |
+| F-5 | **GAP** | Commons governance mechanisms unmapped to v3.1 treaty articles | v3.1, Commons |
+| F-6 | **NOTE** | Sheaf cohomology straddles L2 and L6 without explicit bridge | Commons |
+| F-7 | **NOTE** | NQI circular economy tag conflates biological PROVED with economic analogy | NQI |
+| F-8 | **NOTE** | Transmissibility tagged DEMONSTRATED on n=1 evidence | v3.1 |
+| F-9 | **NOTE** | Neuro rights: DEMONSTRATED tag with no kill condition | Commons |
+| F-10 | **GAP** | Retraction history may be incomplete across v0.1–v3.1 arc | All four |
+| F-11 | **GAP** | No formal cross-document cascade analysis exists | All four |
+| F-12 | **CONFLICT** | Three-register ecology claimed but NQI team roles use different structure | v3.1, NQI |
+
+## 5.2 Recommendations
+
+### Resolve the Fourth Line (F-1)
+
+The most architecturally significant finding. The recommendation is not to choose one framing over the other but to make the relationship explicit. A possible resolution: the Fourth Line is context-dependent, with v3.1’s “the human is the purpose” governing the epistemic methodology and NQI’s “the human is the steward” governing physical deployment. This would parallel the framework’s own principle that different registers interrogate from structurally different positions. The resolution should be documented in a revision note and tagged CONJECTURED with an appropriate kill condition.
+
+### Establish a Lines Versioning Protocol (F-2)
+
+The Lines function as constitutional preamble. Changes to them should follow the RETRACTED protocol: the prior version is documented, the reason for change is stated, and downstream dependencies are flagged. This is a governance issue, not a content issue.
+
+### Harmonize NQI with v3.1 (F-3, F-4, F-12)
+
+NQI should either adopt the vector epistemic tag or state why scalar tags are sufficient for its context. The Gandhi namespace collision should be resolved by distinguishing the epistemic constitution (a principle) from the team role (a function), perhaps by using a different name for the team role or by explicitly mapping team roles to constitutional principles.
+
+### Map Commons Governance to Treaty Articles (F-5)
+
+Each Commons governance mechanism (E8 form, thermodynamic bootstrap, cultural translators, sheaf cohomology) should be explicitly mapped to the v3.1 treaty articles it implements, extends, or replaces. This would transform the Commons from a parallel proposal into a documented extension.
+
+### Build a Corpus-Level Dependency Graph (F-11)
+
+A formal dependency graph covering all four documents, with cascade analysis for each CONJECTURED and SPECULATIVE claim, would be a natural extension of the RETRACTED protocol to corpus scale. The graph should identify which claims, if retracted, would require revision in which documents.
+
+# Audit Metadata
+
+## This Audit’s Epistemic Status
+
+This audit is itself subject to the Glassbox’s self-application requirement.
+
+**DEMONSTRATED: **The structural analysis (document comparison, tag verification, dependency tracing) is DEMONSTRATED through direct textual examination of the four documents. The findings are grounded in specific textual evidence cited throughout.
+
+**CONJECTURED: **The assessment of severity (CONFLICT vs. GAP vs. NOTE) is CONJECTURED. A different auditor operating under different constitutional priorities might classify the same findings differently. Kill condition: the framework’s author identifies a finding whose severity classification is demonstrably wrong.
+
+**SPECULATIVE: **The recommendations in Section 5.2 are SPECULATIVE. They represent one auditor’s proposals for resolution; the framework’s author retains full authority over which recommendations to adopt, modify, or reject.
+
+## Auditor Disclosure
+
+This audit was performed by Claude (Anthropic), operating as a single AI agent internalizing constitutional principles from the corpus. The audit has not been cross-verified by a second AI system or by the Lean 4 compiler. No claims in this audit hold PROVED status. The auditor has no institutional relationship with the Geometry of State research program beyond this analysis.
+
+*The compiler is the credential. The kill condition is the integrity. The retraction is the proof of honesty.*

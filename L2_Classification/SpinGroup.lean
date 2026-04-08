@@ -23,6 +23,12 @@
     the bivector e₁₂ is invariant under Spin(2,0) conjugation.
 -/
 
+import Mathlib.Data.Rat.Defs
+import Mathlib.Data.Rat.Lemmas
+import Mathlib.Tactic.Ring
+import Mathlib.Tactic.NormNum
+import Mathlib.Tactic.Linarith
+
 -- ============================================================
 -- §1. Cl(2,0) over ℚ — Exact Arithmetic for Decidable Proofs
 -- ============================================================

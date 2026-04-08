@@ -1,0 +1,300 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{enumitem}
+\usepackage{abstract}
+
+\definecolor{codegreen}{HTML}{22c55e}
+\definecolor{codegray}{HTML}{64748b}
+\definecolor{codebg}{HTML}{f8fafc}
+\definecolor{codeblue}{HTML}{3b82f6}
+\definecolor{codered}{HTML}{ef4444}
+
+\lstdefinelanguage{Lean4}{
+  keywords={def,theorem,structure,class,namespace,end,where,deriving,let,if,then,else,for,in,do,return,by,rfl,intro,exact,inductive,axiom,import},
+  keywordstyle=\bfseries\color{codeblue},
+  commentstyle=\color{codegray}\itshape,
+  stringstyle=\color{codegreen},
+  morecomment=[l]{--},
+  morecomment=[s]{/-}{-/},
+  sensitive=true,
+}
+
+\lstset{
+  language=Lean4,
+  basicstyle=\ttfamily\small,
+  backgroundcolor=\color{codebg},
+  frame=single,
+  rulecolor=\color{codegray!30},
+  breaklines=true,
+  columns=fullflexible,
+  keepspaces=true,
+  xleftmargin=4pt,
+  xrightmargin=4pt,
+  aboveskip=8pt,
+  belowskip=8pt,
+  framesep=6pt,
+}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=codeblue,
+  urlcolor=codeblue,
+  citecolor=codeblue,
+}
+
+\newcommand{\Cl}[1]{\mathrm{Cl}(#1)}
+\newcommand{\eone}{e_1}
+\newcommand{\etwo}{e_2}
+\newcommand{\ethree}{e_3}
+\newcommand{\eonetwo}{e_{12}}
+\newcommand{\etwothree}{e_{23}}
+\newcommand{\ethreeone}{e_{31}}
+\newcommand{\eonetwothree}{e_{123}}
+\newcommand{\rev}[1]{\widetilde{#1}}
+
+\title{\textbf{The Geometry of State} \\[6pt]
+\large Deriving Topological Invariants from Clifford Algebra: \\
+A Formally Verified Framework Connecting \\
+Condensed Matter to Fusion Plasma}
+
+\author{Adrian Domingo \\[2pt]
+\small \url{https://github.com/GoS-Architect/GeometryOfState} \\
+\small MIT License}
+
+\date{March 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We present a formally verified framework that derives topological invariants from Clifford algebra first principles, implemented as a single Lean~4 file with zero external dependencies. Starting from the three defining rules of $\Cl{n,0}$ (signature, anticommutativity, associativity), we construct bivectors, rotors, the Kitaev chain Hamiltonian, and the winding number as a derived integer. Six theorems about Majorana zero-mode edge states are verified by the Lean~4 kernel via definitional evaluation (\texttt{rfl}). The framework extends to $\Cl{3,0}$ where 3D rotor fields, vortex filament topology, and magnetic helicity conservation under Taylor relaxation are grounded in the same algebraic structure. Numerical simulations on a $48^3$ spectral grid confirm that energy decays $4.4\times$ faster than helicity under resistive diffusion, validating the formal predictions. The central insight is that topological phase transitions are type errors: the proof obligation for the topological invariant becomes undischargeable when the spectral gap closes.
+\end{abstract}
+
+\smallskip
+\noindent\textbf{Keywords:} Clifford algebra, formal verification, topological invariants, Kitaev chain, Majorana zero modes, Taylor relaxation, Lean~4, dependent types
+
+\tableofcontents
+
+\section{Introduction}
+
+Topological invariants in condensed matter physics are typically presented as consequences of band theory, K-theory classification, or homotopy arguments. These approaches, while mathematically rigorous, obscure the algebraic origin of the invariants and resist formal machine verification. We take a different approach: derive everything from the Clifford algebra $\Cl{n,0}$, making every step checkable by a proof assistant.
+
+The Clifford algebra is defined by three rules: the signature ($e_i^2 = +1$), anticommutativity ($e_i e_j = -e_j e_i$ for $i \neq j$), and associativity. From these rules alone, bivectors emerge (grade-2 elements that square to $-1$), rotors emerge (unit even-grade elements that perform rotations via the sandwich product), and the winding number emerges as the topological degree of a rotor-valued map over the Brillouin zone.
+
+The key insight is that the spectral gap condition required to define the topological invariant is not merely a numerical check but a \emph{proof obligation} in the dependent type sense. The function that computes the invariant requires a witness that the Hamiltonian vector is nonzero at every momentum. At the topological phase transition, this witness does not exist. The invariant becomes uncomputable---not due to a runtime error, but due to the absence of a proof term. The singularity is a type error.
+
+We implement this framework in Lean~4 as a single 835-line file with zero library dependencies. Seven theorems are verified by the kernel, six via definitional evaluation (\texttt{rfl}). The framework is validated numerically by three Python simulations covering Gross-Pitaevskii vortex dynamics and resistive MHD Taylor relaxation.
+
+\section{Clifford Algebra Foundation}
+
+\subsection{\texorpdfstring{$\Cl{2,0}$}{Cl(2,0)}: Bivectors and the Emergent Imaginary Unit}
+
+The Clifford algebra $\Cl{2,0}$ is the associative algebra generated by two elements $\eone$ and $\etwo$ subject to $\eone^2 = \etwo^2 = 1$ and $\eone\etwo = -\etwo\eone$. The algebra has dimension $2^2 = 4$ with basis $\{1, \eone, \etwo, \eonetwo\}$ where $\eonetwo = \eone\etwo$ is the \emph{bivector}.
+
+A direct computation shows:
+\begin{equation}
+\eonetwo^2 = \eone\etwo\eone\etwo = -\eone^2\etwo^2 = -1
+\end{equation}
+This is verified by the Lean~4 kernel:
+\begin{lstlisting}
+def e12_squared : Cl2 := Cl2.mul Cl2.e12 Cl2.e12
+-- Evaluates to: { s := -1.0, v1 := 0.0, v2 := 0.0, b := 0.0 }
+\end{lstlisting}
+
+The geometric product is implemented as an explicit 16-term formula derived entirely from the three defining rules. No complex number axiom is used; the imaginary unit structure is a consequence of the algebra.
+
+\subsection{Rotors and the Even Subalgebra}
+
+A \emph{rotor} is a unit element of the even subalgebra:
+\begin{equation}
+R = \cos(\theta/2) + \sin(\theta/2)\cdot\eonetwo
+\end{equation}
+The set of unit rotors forms $S^1$. Rotor composition is the Clifford product restricted to even elements, and the minus sign in $(s_1 s_2 - b_1 b_2)$ comes from $\eonetwo^2 = -1$, not from an external definition.
+
+\subsection{\texorpdfstring{$\Cl{3,0}$}{Cl(3,0)}: The Full 3D Algebra}
+
+$\Cl{3,0}$ has dimension $2^3 = 8$ with basis $\{1, \eone, \etwo, \ethree, \eonetwo, \etwothree, \ethreeone, \eonetwothree\}$. The geometric product is a 64-term formula. The even subalgebra $\{1, \eonetwo, \etwothree, \ethreeone\}$ is isomorphic to the quaternions $\mathbb{H}$.
+
+A 3D rotor $R = \cos(\theta/2) + \sin(\theta/2)\cdot\hat{B}$ (where $\hat{B}$ is a unit bivector specifying the rotation plane) acts on vectors by the sandwich product:
+\begin{equation}
+v' = R\,v\,\rev{R}
+\end{equation}
+This is computed directly from the $\Cl{3,0}$ multiplication table, not from rotation matrices. All identities ($\eonetwo^2 = -1$, $\eonetwothree^2 = -1$, associativity, anticommutativity) are verified computationally by \texttt{\#eval} blocks.
+
+\section{The Gap Condition as Type Safety}
+
+The topological invariant of the Kitaev chain requires inverting the Hamiltonian bivector at each momentum. Inversion requires the bivector magnitude to be nonzero. We encode this as a dependent type:
+
+\begin{lstlisting}
+class IsNonzero (x : Float) : Prop where
+  proof : x != 0.0
+
+def IsGappedAt (h1 h2 : Float) : Prop :=
+  IsNonzero (bivectorMagSq h1 h2)
+
+def safeBivectorInv (h1 h2 : Float)
+    (_hGap : IsGappedAt h1 h2) : Float x Float :=
+  let magSq := bivectorMagSq h1 h2
+  (-h1 / magSq, -h2 / magSq)
+\end{lstlisting}
+
+The function \texttt{safeBivectorInv} \emph{cannot be called} without a proof that the magnitude is nonzero. At the topological phase transition ($|\mu| = 2|t|$ for the Kitaev chain), the Hamiltonian vector passes through zero and no such proof exists. The invariant becomes uncomputable. This is not a runtime error; it is the absence of a proof term.
+
+This is proven as a theorem:
+
+\begin{lstlisting}
+theorem gapless_blocks_inversion
+    (h1 h2 : Float)
+    (hGapless : not (IsGappedAt h1 h2)) :
+    not (Exists (fun _ : IsGappedAt h1 h2 => True)) := by
+  intro (hGap, _)
+  exact hGapless hGap
+\end{lstlisting}
+
+Three lines. No \texttt{sorry}. No axiom. The Lean~4 kernel confirms it.
+
+\section{The Kitaev Chain and the Derived Integer}
+
+\subsection{Hamiltonian as a \texorpdfstring{$\Cl{2,0}$}{Cl(2,0)} Vector}
+
+The 1D Kitaev chain has momentum-space Hamiltonian
+\begin{equation}
+H(k) = h_1(k)\cdot\eone + h_2(k)\cdot\etwo
+\end{equation}
+where $h_1 = -\mu - 2t\cos k$ and $h_2 = 2\Delta\sin k$. This is a vector in $\Cl{2,0}$ at each momentum $k$. Its direction is encoded by a rotor $R(k) = \cos(\theta(k)/2) + \sin(\theta(k)/2)\cdot\eonetwo$.
+
+\subsection{Winding Number}
+
+As $k$ sweeps $[0, 2\pi]$, the angle $\theta(k) = \mathrm{atan2}(h_2, h_1)$ traces a closed curve on $S^1$. The winding number
+\begin{equation}
+W = \frac{1}{2\pi}\oint d\theta
+\end{equation}
+is an integer because the curve is closed. It cannot change without the gap closing. The integer is derived from the Clifford algebra structure, not assumed.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{llcl}
+\toprule
+\textbf{Parameters} & \textbf{Gap} & $\boldsymbol{W}$ & \textbf{Phase} \\
+\midrule
+$\mu=0,\ t=1,\ \Delta=1$ & $> 0$ & $1$ & Topological \\
+$\mu=3,\ t=1,\ \Delta=1$ & $> 0$ & $0$ & Trivial \\
+$\mu=0,\ t=1,\ \Delta=-1$ & $> 0$ & $-1$ & Topological (neg.) \\
+$\mu=2,\ t=1,\ \Delta=1$ & $= 0$ & undef. & Critical \\
+\bottomrule
+\end{tabular}
+\caption{Winding number computed from $\Cl{2,0}$ rotor phase accumulation.}
+\label{tab:winding}
+\end{table}
+
+\section{Majorana Edge Modes: Bulk-Boundary Correspondence}
+
+The 1D Kitaev chain in the topological phase ($W=1$) has unpaired Majorana zero modes at its edges. We verify this for a 3-site chain by exhaustive computation. Each electron site splits into two Majorana fermions (type A and type B). The topological Hamiltonian couples $B(i)$ to $A(i+1)$, leaving $A(1)$ and $B(3)$ uncoupled.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lll}
+\toprule
+\textbf{Theorem} & \textbf{Statement} & \textbf{Proof} \\
+\midrule
+\texttt{gapless\_blocks\_inversion} & Gapless system blocks invariant & 3 lines \\
+\texttt{left\_edge\_mode} & $A(1)$ is free in topological chain & \texttt{rfl} \\
+\texttt{right\_edge\_mode} & $B(3)$ is free in topological chain & \texttt{rfl} \\
+\texttt{bulk\_is\_coupled} & $B(1)$ is NOT free (coupled) & \texttt{rfl} \\
+\texttt{trivial\_no\_left\_edge} & $A(1)$ is NOT free in trivial chain & \texttt{rfl} \\
+\texttt{trivial\_no\_right\_edge} & $B(3)$ is NOT free in trivial chain & \texttt{rfl} \\
+\bottomrule
+\end{tabular}
+\caption{Complete theorem portfolio. All proofs verified by the Lean~4 kernel.}
+\label{tab:theorems}
+\end{table}
+
+The \texttt{rfl} proofs mean the kernel evaluates the \texttt{isFreeMode} function on the concrete chain data and confirms the Boolean result. No axioms are used. The compiler is the sole verifier.
+
+\section{The Topological Lock and Protection Hierarchy}
+
+A rotor field in $d$ dimensions has codimension-2 singularities. In 2D, these are points (vortex cores). Points cannot be knotted, so 2D vortex configurations have no topological protection: vortices migrate freely under perturbation. In 3D, codimension-2 singularities are curves (filaments). Curves in 3D can be knotted, and knot type is a discrete invariant that cannot change without the filament passing through itself. This requires creating a new density zero, which costs reconnection energy.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{llll}
+\toprule
+\textbf{Level} & \textbf{Dimension} & \textbf{Singularity} & \textbf{Protection} \\
+\midrule
+Unprotected & 2D, no pinning & Points (mobile) & None \\
+Energetic & 2D + pinning & Points (pinned) & Conditional ($E < $ barrier) \\
+Topological & 3D + knotting & Curves (knotted) & Discrete (knot type) \\
+\bottomrule
+\end{tabular}
+\caption{Protection hierarchy derived from codimension of singularities.}
+\label{tab:protection}
+\end{table}
+
+\section{Application to Fusion Plasma Confinement}
+
+\subsection{The Magnetic Bivector}
+
+The magnetic field in a plasma is a bivector in $\Cl{3,0}$:
+\begin{equation}
+B = B_{12}\,\eonetwo + B_{23}\,\etwothree + B_{31}\,\ethreeone
+\end{equation}
+This is the same algebraic type as the superfluid rotor's bivector part. The correspondence between superfluid vortex dynamics and magnetohydrodynamics is not metaphorical; it is a shared $\Cl{3,0}$ structure. Phase gradient maps to vector potential, superfluid velocity maps to magnetic field, winding number maps to magnetic helicity, and the reconnection barrier maps to Alfv\'en's frozen-flux theorem.
+
+\subsection{Taylor Relaxation}
+
+Under resistive diffusion ($\partial B/\partial t = \eta\nabla^2 B$), each Fourier mode decays as $\exp(-\eta k^2 t)$. Energy, which is weighted toward high-$k$ modes, decays faster than helicity, which is weighted toward low-$k$ modes. This selective dissipation drives the plasma toward the minimum-energy state at fixed helicity: the force-free Beltrami field ($\nabla\times B = \lambda B$).
+
+Numerical simulation on a $48^3$ spectral grid confirms:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Configuration} & \textbf{$H$ retained} & \textbf{$E$ retained} & \textbf{Ratio} & \textbf{FF error} \\
+\midrule
+Pure ABC ($\eta=0.005$) & 96.1\% & 96.1\% & $1.0\times$ & 0.0000 \\
+Perturbed ($\eta=0.005$) & 96.1\% & 82.6\% & $4.4\times$ & $8.73 \to 0.21$ \\
+Perturbed ($\eta=0.001$) & 99.2\% & 86.2\% & $17.3\times$ & --- \\
+High-$k$ ($\eta=0.005$) & 96.1\% & 90.7\% & $2.4\times$ & --- \\
+\bottomrule
+\end{tabular}
+\caption{Taylor relaxation simulation results (800 steps, $dt=0.005$, $48^3$ grid).}
+\label{tab:taylor}
+\end{table}
+
+The pure Beltrami control (ratio $= 1.0\times$) confirms the mechanism: selective dissipation requires multi-scale structure. When all energy sits at a single wavenumber ($k=1$ for the ABC eigenmode), there is no scale separation and helicity and energy decay identically.
+
+\subsection{Stellarator vs.\ Tokamak}
+
+The protection hierarchy from Section~6 applies directly to fusion confinement. A tokamak is axisymmetric, making it effectively 2D for the purposes of magnetic topology. Current-driven instabilities (kink modes, tearing modes) can restructure the field line topology, leading to disruptions. A stellarator is fully 3D with rotational transform provided by external coils, not plasma current. Its magnetic field lines can be knotted, providing topological protection against disruption.
+
+In the formal framework: tokamak $=$ Level~1 (unprotected), stellarator $=$ Level~3 (topological).
+
+\section{Axiom Accounting}
+
+The framework contains \textbf{zero inconsistent axioms}. An earlier version included an axiom \texttt{ConservationOfInformation} stating that no type equals \texttt{Empty}. This was provably false (\texttt{Empty = Empty} by \texttt{rfl}) and has been removed. All theorems are proved without \texttt{sorry}.
+
+\paragraph{Derived from $\Cl{n,0}$ (zero axioms):}
+$\eonetwo^2 = -1$ (computed); $\eonetwothree^2 = -1$ (computed); rotor composition (Clifford product); sandwich product rotates vectors (computed); winding number is integer (closed curve); all six edge mode theorems (\texttt{rfl}); magnetic bivector product ($\Cl{3,0}$ product); selective dissipation $\exp(-\eta k^2 t)$; stellarator = topological, tokamak = unprotected.
+
+\paragraph{Physics input (empirical, not Lean axioms):}
+GP evolution preserves $\rho > 0$ below reconnection energy (\texttt{gp3d\_solver.py}); complete read/write topological cycle via 4-phase protocol (\texttt{gp3d\_readwrite.py}); resistive MHD gives $\exp(-\eta k^2 t)$ decay (\texttt{stellarator\_taylor\_relaxation.py}); Beltrami field is minimum-energy state at fixed helicity (Taylor 1974, FF error $8.73 \to 0.21$).
+
+\section{Conclusion}
+
+We have demonstrated that a single Clifford algebra foundation, implemented in 835 lines of zero-dependency Lean~4, can derive topological invariants, verify Majorana edge modes, encode the gap condition as type safety, compute 3D rotations without matrices, and connect condensed matter topology to fusion plasma confinement. The framework's central contribution is making the type-theoretic nature of topological protection explicit: phase transitions are not numerical instabilities but proof-obligation failures.
+
+The complete source is available at \url{https://github.com/GoS-Architect/GeometryOfState} and can be verified by running \texttt{lake build}. The compiler is the credential.
+
+\paragraph{Reproducibility.}
+All Lean proofs compile under Lean~4 v4.12.0. All simulations run on standard Python~3.12 with NumPy. No proprietary tools or data are required.
+
+\end{document}

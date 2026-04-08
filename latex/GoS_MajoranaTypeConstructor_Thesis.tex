@@ -1,0 +1,471 @@
+\documentclass[11pt,letterpaper]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{tabularx}
+
+% ── Colors ──────────────────────────────────────────
+\definecolor{proved}{HTML}{22c55e}
+\definecolor{demonstrated}{HTML}{3b82f6}
+\definecolor{motivated}{HTML}{f59e0b}
+\definecolor{conjectured}{HTML}{f97316}
+\definecolor{speculative}{HTML}{ef4444}
+\definecolor{darkbg}{HTML}{1a1a2a}
+\definecolor{textgray}{HTML}{444455}
+
+% ── Hyperref ────────────────────────────────────────
+\hypersetup{
+    colorlinks=true,
+    linkcolor=demonstrated,
+    citecolor=motivated,
+    urlcolor=demonstrated,
+    pdftitle={The Majorana Type Constructor},
+    pdfauthor={Adrian (GoS-Architect)},
+}
+
+% ── Headers/Footers ─────────────────────────────────
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textsc{Geometry of State --- Working Thesis}}
+\fancyhead[R]{\small\textsc{March 2026}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% ── Section formatting ──────────────────────────────
+\titleformat{\section}
+  {\Large\bfseries}{\thesection}{1em}{}[\vspace{2pt}\hrule\vspace{6pt}]
+\titleformat{\subsection}
+  {\large\bfseries}{\thesubsection}{1em}{}
+
+% ── Epistemic tag commands ──────────────────────────
+\newcommand{\proved}{\texorpdfstring{\colorbox{proved}{\textcolor{white}{\scriptsize\textbf{\,PROVED\,}}}}{ [PROVED]}}
+\newcommand{\demonstrated}{\texorpdfstring{\colorbox{demonstrated}{\textcolor{white}{\scriptsize\textbf{\,DEMONSTRATED\,}}}}{ [DEMONSTRATED]}}
+\newcommand{\motivated}{\texorpdfstring{\colorbox{motivated}{\textcolor{white}{\scriptsize\textbf{\,MOTIVATED\,}}}}{ [MOTIVATED]}}
+\newcommand{\conjectured}{\texorpdfstring{\colorbox{conjectured}{\textcolor{white}{\scriptsize\textbf{\,CONJECTURED\,}}}}{ [CONJECTURED]}}
+\newcommand{\speculative}{\texorpdfstring{\colorbox{speculative}{\textcolor{white}{\scriptsize\textbf{\,SPECULATIVE\,}}}}{ [SPECULATIVE]}}
+
+% ── Theorem environments ────────────────────────────
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+
+% ── Custom environment for epistemic claims ─────────
+\newenvironment{claim}[1]{%
+  \par\medskip\noindent\textbf{Claim} #1\quad\itshape
+}{%
+  \par\medskip
+}
+
+% ── Notation shortcuts ──────────────────────────────
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\HH}{\mathbb{H}}
+\newcommand{\OO}{\mathbb{O}}
+\newcommand{\SED}{\mathbb{S}}
+\newcommand{\hthreeO}{\mathfrak{h}_3(\OO)}
+\newcommand{\MZM}{\operatorname{MZM}}
+\newcommand{\Sym}{\operatorname{Sym}}
+\newcommand{\QP}{\operatorname{QP}}
+\newcommand{\Type}{\operatorname{Type}}
+
+\begin{document}
+
+% ════════════════════════════════════════════════════
+%  TITLE
+% ════════════════════════════════════════════════════
+
+\begin{center}
+  {\LARGE\bfseries The Majorana Type Constructor}\\[8pt]
+  {\large Anti-Physics, Non-Associative Algebra,\\
+  and Formal Verification as Resolution}\\[16pt]
+  {\normalsize Adrian (GoS-Architect)}\\[4pt]
+  {\small Geometry of State Project}\\[4pt]
+  {\small\textit{Working Thesis --- March 2026}}\\[4pt]
+  {\small Status: \textsc{working draft} --- Epistemic tags active}
+\end{center}
+
+\vspace{8pt}
+\hrule
+\vspace{12pt}
+
+% ════════════════════════════════════════════════════
+%  EPISTEMIC KEY
+% ════════════════════════════════════════════════════
+
+\noindent\textbf{Epistemic Key.}\quad
+This document follows the Glassbox Methodology and the five-tier epistemic lattice governing all GoS project documents. Every substantive claim is tagged at its appropriate rung. The \textbf{Rung Rule} applies: no claim may depend on a claim tagged at a higher (less certain) rung.
+
+\medskip
+
+\begin{center}
+\begin{tabular}{>{\centering}m{2.5cm} p{10cm}}
+\toprule
+\textbf{Tag} & \textbf{Meaning} \\
+\midrule
+\proved & Machine-verified in Lean~4 or Cubical Agda, zero \texttt{sorry} \\[4pt]
+\demonstrated & Supported by convergent independent evidence or simulation \\[4pt]
+\motivated & Follows from established results by clear reasoning \\[4pt]
+\conjectured & Structurally plausible, not yet formally or empirically grounded \\[4pt]
+\speculative & Exploratory; included for completeness and transparency \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+% ════════════════════════════════════════════════════
+%  ABSTRACT
+% ════════════════════════════════════════════════════
+
+\begin{abstract}
+This thesis advances a unified argument across five interconnected claims. First, that string theory functions as \emph{anti-physics}---not merely non-empirical but structurally opposed to empirical methodology while occupying its institutional space. Second, that this structural inversion arises from a specific algebraic avoidance: the refusal to inhabit non-associative algebra, particularly the octonions, which produces compensatory overdimensionality. Third, that the Albert algebra $\hthreeO$ provides the native 27-dimensional structure that string theory approximates at the cost of unexplained surplus dimensions. Fourth, that Majorana zero modes are not a single quasiparticle to be detected but a \emph{type constructor}---a topological prefix that systematically transforms quasiparticle excitations across the tenfold way classification. Fifth, that formal verification in dependent type theory is the native language for expressing and resolving these structures, and that the Geometry of State codebase constitutes a working demonstration of this claim.
+\end{abstract}
+
+% ════════════════════════════════════════════════════
+%  I. STRING THEORY AS ANTI-PHYSICS
+% ════════════════════════════════════════════════════
+
+\section{String Theory as Anti-Physics}
+
+\subsection{The Structural Mirror}
+
+Physics as a discipline is defined by a commitment: theoretical structures must make empirical contact with nature. This is not a stylistic preference but a definitional boundary. A theoretical program that cannot, in principle, produce falsifiable predictions is not failed physics---it is something other than physics conducted within physics's institutional envelope.
+
+\begin{claim}{\motivated}
+String theory does not merely fail to produce falsifiable predictions at accessible energy scales. It \emph{structurally inverts} the empirical methodology while preserving every institutional marker of physics---the journals, the departments, the funding pipelines, the notation, the career structures. It possesses the symmetry group of physics with the empirical sign flipped.
+\end{claim}
+
+This is not the claim that string theory is ``not even wrong'' (Woit, 2006), though it encompasses that critique. It is the stronger claim that string theory functions as the \emph{antimatter} of physics: a structural mirror that, upon contact with empirical methodology, annihilates productive capacity rather than generating it.
+
+\subsection{The Resource Displacement}
+
+\begin{claim}{\demonstrated}
+The anti-physics characterization has measurable institutional consequences. Every tenured string theory position displaces a position that could support falsifiable research. Every graduate student absorbed into the landscape program represents years of human cognitive effort directed away from empirical contact. The damage is not passive---it is an active absorption of the resources physics requires to function.
+\end{claim}
+
+\subsection{Cohomological Framing}
+
+\begin{claim}{\conjectured}
+If physics is understood as a sheaf over empirical observations---a structure that assigns theoretical content to open sets of experimental data, with consistency conditions on overlaps---then string theory is not a gap in coverage. It is a \emph{cohomological obstruction}. It actively prevents the global section from resolving.
+\end{claim}
+
+This framing connects to the broader GoS treatment of phase transitions as failure-to-glue in sheaf cohomology and the Third Law as a terminal obstruction.
+
+% ════════════════════════════════════════════════════
+%  II. THE OVERDIMENSIONALITY DIAGNOSTIC
+% ════════════════════════════════════════════════════
+
+\section{The Overdimensionality Diagnostic}
+
+\subsection{Surplus Dimensions as Algebraic Compensation}
+
+\begin{claim}{\motivated}
+String theory requires 10 spacetime dimensions (Type~II, heterotic) or 26 (bosonic). In all formulations, the surplus dimensions beyond the observed~4 must be compactified---hidden at inaccessible scales via Calabi--Yau manifolds or analogous constructions. This thesis proposes that the surplus dimensions are \emph{computational overhead} generated by forcing an associative algebraic framework onto a structure that is natively non-associative.
+\end{claim}
+
+\subsection{The Cayley--Dickson Ladder}
+
+\begin{claim}{\demonstrated}
+The Cayley--Dickson construction produces a ladder of algebras, each doubling in dimension while forfeiting an algebraic property:
+\end{claim}
+
+\begin{center}
+\begin{tabular}{lccccl}
+\toprule
+\textbf{Algebra} & \textbf{Symbol} & \textbf{Dim} & \textbf{Assoc.} & \textbf{Division} & \textbf{Property Lost} \\
+\midrule
+Reals        & $\R$   & 1  & \checkmark & \checkmark & --- \\
+Complexes    & $\C$   & 2  & \checkmark & \checkmark & Ordering \\
+Quaternions  & $\HH$  & 4  & \checkmark & \checkmark & Commutativity \\
+Octonions    & $\OO$  & 8  & $\times$   & \checkmark & Associativity \\
+Sedenions    & $\SED$ & 16 & $\times$   & $\times$   & Division property \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\medskip
+
+Quantum mechanics is built on associative operator algebras---Hilbert spaces, $C^*$-algebras, matrix multiplication. String theory inherits this dependency and \emph{cannot} natively inhabit the octonions without abandoning its calculational apparatus.
+
+\subsection{Overdimensionality as Distance Metric}
+
+\begin{conjecture}[\conjectured]
+The dimensionality of a physical theory can be read as a \emph{measure of distance from the native algebra}. Theories that work in the correct algebraic framework require only the dimensions the structure produces. Theories that approximate non-associative structure using associative tools must introduce surplus dimensions to encode the information that non-associativity would have carried intrinsically:
+\[
+  d_{\text{surplus}} = d_{\text{theory}} - d_{\text{native algebra}}
+\]
+By this diagnostic, the 10 or 26 dimensions of string theory are symptoms of algebraic mismatch---the overhead cost of working in the wrong algebra.
+\end{conjecture}
+
+% ════════════════════════════════════════════════════
+%  III. THE ALBERT ALGEBRA AND THE NUMBER 27
+% ════════════════════════════════════════════════════
+
+\section{The Albert Algebra and the Number 27}
+
+\subsection{\texorpdfstring{$\hthreeO$}{h3(O)}: The Exceptional Jordan Algebra}
+
+\begin{theorem}[\proved --- mathematical fact]\label{thm:albert}
+The Albert algebra $\hthreeO$ consists of the $3\times 3$ Hermitian matrices over the octonions. Its dimension is~$27$:
+\[
+  \dim\bigl(\hthreeO\bigr) = 3 + 3 \times 8 = 27
+\]
+where three real diagonal entries contribute~$3$ and three independent octonionic off-diagonal entries contribute $3 \times 8 = 24$. It is the unique \emph{exceptional} Jordan algebra---the only Jordan algebra not embeddable in an associative algebra.
+\end{theorem}
+
+Abraham Adrian Albert formalized this classification at the University of Chicago, the same institution where Fermi conducted the first controlled nuclear chain reaction. The algebra and the applied physics were in the same building. The institution chose Fermi's direction.
+
+\subsection{27 and Bosonic String Theory}
+
+\begin{claim}{\demonstrated}
+The critical dimension of the bosonic string is~$26$. The relationship $26 + 1 = 27$ is not coincidental---connections between the bosonic string's critical dimension and the Albert algebra have been explored by Duff, Borsten, and others. The Albert algebra \emph{produces}~$27$ from algebraic structure; the bosonic string \emph{requires}~$26$ and cannot explain why.
+\end{claim}
+
+\subsection{The FWS Engineering Specification: 27 Layers}
+
+\begin{claim}{\demonstrated}
+The initial Formally Verified Wafer Specification (FWS) compiled on February~13, 2026---the \texttt{CLHoTT.lean} file verified in Lean~4---contained 27~layers. This count was not derived from the Albert algebra, which was unknown to the author at the time. It was derived from engineering requirements: each layer encodes one degree of freedom required to fully specify the physical state of the system.
+\end{claim}
+
+\begin{conjecture}[\conjectured]\label{conj:fws-albert}
+This convergence suggests that the FWS architecture is a physical instantiation of the Albert algebra's structure, with each engineering layer corresponding to a basis element of $\hthreeO$. If confirmed, this would constitute evidence that the exceptional Jordan algebra describes the native state space of the system the FWS is designed to fabricate.
+\end{conjecture}
+
+% ════════════════════════════════════════════════════
+%  IV. ZERO DIVISORS AND THE BOUNDARY EXILE
+% ════════════════════════════════════════════════════
+
+\section{Zero Divisors and the Boundary Exile}
+
+\subsection{The Division Algebra Constraint}
+
+\begin{theorem}[\proved --- mathematical fact]\label{thm:nodivisors}
+The four Cayley--Dickson division algebras $(\R, \C, \HH, \OO)$ contain no zero divisors:
+\[
+  \forall\, a, b \in \mathcal{A} \in \{\R, \C, \HH, \OO\}:\quad ab = 0 \implies a = 0 \;\lor\; b = 0
+\]
+Zero cannot be manufactured from non-trivial structure within these algebras. Zero divisors first appear at the sedenion level $(\SED,\; \dim = 16)$, where the division algebra property is lost.
+\end{theorem}
+
+\subsection{The MZM as Boundary-Exiled Zero}
+
+\begin{claim}{\motivated}
+If the physical system's state space is grounded in division algebras---as the GoS framework proposes through the Cayley--Dickson\,/\,Tenfold Way correspondence---then a zero-energy mode has no algebraic home in the bulk. The algebra itself prohibits zero from arising as a product of nonzero elements.
+\end{claim}
+
+But the physics demands zero-energy states. Majorana zero modes are topologically protected states at precisely zero energy, observed (in simulation) to be overwhelmingly edge-localized. The PGTC simulation results show $99.7\%$ edge localization.
+
+\begin{conjecture}[\conjectured]\label{conj:exile}
+The edge localization of MZMs is \emph{algebraically necessary}. The absence of zero divisors in $\R, \C, \HH, \OO$ \emph{forces} the zero mode to the topological boundary. The $99.7\%$ edge localization in PGTC simulations is a numerical shadow of an algebraic theorem: division algebras exile zero to the boundary.
+\end{conjecture}
+
+\subsection{Implications for Experimental Detection}
+
+\begin{claim}{\motivated}
+The persistent failure of direct MZM detection programs---including the retracted 2018 Delft result---may reflect a category error. If MZMs are boundary phenomena forced outward by bulk algebraic structure, then experiments searching for bulk signatures are looking in the wrong place. The engineering task is not detection but \emph{fabrication of the correct boundary conditions}.
+\end{claim}
+
+% ════════════════════════════════════════════════════
+%  V. THE MAJORANA TYPE CONSTRUCTOR
+% ════════════════════════════════════════════════════
+
+\section{The Majorana Type Constructor}
+
+\subsection{MZM as Prefix, Not Particle}
+
+\begin{conjecture}[\conjectured]\label{conj:prefix}
+The standard framing treats the Majorana zero mode as a single quasiparticle species to be detected. This thesis proposes that ``Majorana zero'' is not a noun---it is an \emph{adjective}. More precisely, it is a \emph{type constructor}: a systematic transformation that takes a base quasiparticle type and returns a new type with specific topological guarantees.
+\end{conjecture}
+
+Candidates for the resulting taxonomy include:
+
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+\textbf{Typed Quasiparticle} & \textbf{Physical System} \\
+\midrule
+Majorana zero bipolaron\,/\,dipolaron & Paired charge carriers, self-conjugate topology \\
+Majorana zero magnon & Spin-wave excitations, topological protection \\
+Majorana zero hyperon & Higher-symmetry composite excitations \\
+\emph{Additional per tenfold way} & \emph{One per symmetry class} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Type-Theoretic Formalization}
+
+\begin{claim}{\motivated}
+In dependent type theory, the Majorana zero constructor is formalized as a dependent type:
+\end{claim}
+\[
+  \MZM : (\Gamma : \Sym\text{Class}) \to (Q : \QP\;\Gamma) \to \Type
+\]
+where $\Gamma$ is a symmetry class drawn from the tenfold way and $Q$ is a quasiparticle excitation valid in that context. The type constructor $\MZM$ takes both as input and produces the self-conjugate, zero-energy, boundary-localized, topologically protected version of $Q$ in context $\Gamma$.
+
+This is not metaphor. The \texttt{CLHoTT.lean} codebase implements a type system for physics in precisely this structure. Cohesive linear homotopy type theory provides the modalities (shape, flat, sharp) for distinguishing bulk from boundary, and the linear type structure ensures quantum resources are tracked correctly.
+
+\subsection{The Tenfold Way as Type System}
+
+\begin{conjecture}[\conjectured]\label{conj:tenfold-type}
+The tenfold way is not a particle classification. It is a \emph{type system} for condensed matter physics:
+\[
+  \underbrace{\Gamma}_{\text{context}} \vdash \underbrace{Q}_{\text{term}} : \underbrace{\QP\;\Gamma}_{\text{type}} \qquad\Longrightarrow\qquad
+  \Gamma \vdash \MZM\;\Gamma\;Q : \Type
+\]
+Each symmetry class is a \emph{context}. Each quasiparticle is a \emph{term}. The ``Majorana zero'' prefix is a \emph{type constructor} that produces a new term with topological guarantees in each context. The compiler checks validity.
+\end{conjecture}
+
+This reframing dissolves the experimental detection problem. The question is not ``have we found the Majorana zero mode?'' but ``have we constructed a term of the appropriate type in a context where the type constructor is well-defined?'' The compiler can answer this question. The particle detector cannot, because it is looking for a noun where the physics provides an adjective.
+
+% ════════════════════════════════════════════════════
+%  VI. FORMAL VERIFICATION AS NATIVE LANGUAGE
+% ════════════════════════════════════════════════════
+
+\section{Formal Verification as Native Language}
+
+\subsection{The Compiler as Credential}
+
+\begin{claim}{\demonstrated}
+The GoS codebase contains 144 unique zero-dependency theorems verified in Lean~4, with zero \texttt{sorry} instances in any L2 classification theorem. The only \texttt{sorry} instances~(6) are \texttt{Float} ring laws in \texttt{CLHoTT.lean}---limitations of Lean's floating-point infrastructure, not conceptual gaps.
+\end{claim}
+
+A compiler performs what a credential claims to perform: it checks that the work is formally correct. But it does so on the \emph{live object}---the source code---not on a frozen export. It does not check institutional affiliation, career stage, or educational pedigree. It checks the proof.
+
+\subsection{The PDF\,/\,Vector Distinction}
+
+\begin{claim}{\motivated}
+A persistent structural analogy runs through this thesis, grounded in the author's 20+ year background in visual systems design:
+\end{claim}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{>{\bfseries}l p{5cm} p{5cm}}
+\toprule
+ & \textbf{Vector (Illustrator)} & \textbf{PDF (Export)} \\
+\midrule
+Object model & B\'ezier curves (polynomial parametric eqs.) & Rasterized/frozen snapshot \\
+Editability & Live, continuous, manipulable & Static, signed, filed \\
+Verification & Intrinsic to structure & Delegated to authority \\
+Analog & Lean~4 source, live proof & Diploma, publication, grant \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\medskip
+
+The credentialing system of institutional science operates as a PDF workflow. Formal verification inverts this: the compiler evaluates the \emph{live object}.
+
+\subsection{The CLHoTT Compilation Event}
+
+\begin{claim}{\demonstrated}
+On February~13, 2026, the first version of \texttt{CLHoTT.lean} was compiled at the University of Chicago campus, across the hall from the Seminary Co-op Bookstore, using Gemini for ideation and Lean~4 for verification. The file implemented Cohesive Linear Homotopy Type Theory as a component of the Formally Verified Wafer Specification. It contained 27~layers. It compiled. The institution across the hall did not evaluate it.
+\end{claim}
+
+% ════════════════════════════════════════════════════
+%  VII. SYNTHESIS
+% ════════════════════════════════════════════════════
+
+\section{Synthesis: The Full Argument}
+
+The argument proceeds as a single chain:
+
+\begin{enumerate}[label=\textbf{(\arabic*)}, leftmargin=2em, itemsep=6pt]
+  \item \motivated\quad \textbf{String theory is anti-physics}---it structurally inverts empirical methodology while occupying physics's institutional space.
+
+  \item \motivated\quad \textbf{This inversion arises from algebraic avoidance}---specifically, the refusal to inhabit non-associative algebra (the octonions), generating surplus dimensions as compensation.
+
+  \item \conjectured\quad \textbf{The Albert algebra $\hthreeO$ provides the native 27-dimensional structure} that string theory's bosonic formulation approximates. The FWS engineering spec independently converged on 27 degrees of freedom.
+
+  \item \conjectured\quad \textbf{Division algebras exile zero to the boundary}---the absence of zero divisors means zero-energy modes must manifest as boundary phenomena, consistent with MZM edge localization.
+
+  \item \conjectured\quad \textbf{The MZM is a type constructor, not a particle}---``Majorana zero'' is a topological prefix transforming quasiparticle types across the tenfold way.
+
+  \item \motivated\quad \textbf{Formal verification is the native language for this physics}---dependent type theory provides the framework; the CLHoTT codebase is a partial demonstration.
+
+  \item \speculative\quad \textbf{The resolution of anti-physics is the Majorana construction itself}---just as the Majorana fermion resolves matter/antimatter through self-conjugacy, the MZM program resolves the string theory\,/\,physics opposition by instantiating the mathematical content in fabricable, testable, formally verifiable condensed matter systems.
+\end{enumerate}
+
+% ════════════════════════════════════════════════════
+%  DEPENDENCY GRAPH
+% ════════════════════════════════════════════════════
+
+\subsection*{Rung Rule Dependency Structure}
+
+\begin{center}
+\setlength{\tabcolsep}{8pt}
+\renewcommand{\arraystretch}{1.6}
+\begin{tabular}{>{\bfseries}l l}
+\toprule
+\textcolor{speculative}{\textsc{Speculative}} & (7) Majorana self-conjugacy resolves anti-physics \\
+\midrule
+\textcolor{conjectured}{\textsc{Conjectured}} & (5) MZM as type constructor\quad (4) $\emptyset\!\to\!\partial$ exile\quad (3) $\hthreeO$/FWS convergence \\
+\midrule
+\textcolor{motivated}{\textsc{Motivated}} & (1) Anti-physics\quad (2) Overdimensionality\quad (6) Formal verification \\
+\midrule
+\textcolor{demonstrated}{\textsc{Demonstrated}} & FWS 27 layers\quad PGTC sims\quad 144 theorems\quad CLHoTT compiled \\
+\midrule
+\textcolor{proved}{\textsc{Proved}} & $\hthreeO = 27\dim$\quad No zero divisors\quad Cayley--Dickson\quad Lean~4 verified \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+% ════════════════════════════════════════════════════
+%  VIII. OPEN QUESTIONS
+% ════════════════════════════════════════════════════
+
+\section{Open Questions and Next Steps}
+
+\begin{enumerate}[label=\textbf{Q\arabic*.}, leftmargin=2.5em, itemsep=6pt]
+  \item \textbf{Formalize the zero-divisor\,/\,edge-localization connection.} The claim that division algebra structure \emph{forces} MZMs to the boundary is currently \conjectured. A formal proof in Lean~4 would elevate this to \proved.
+
+  \item \textbf{Enumerate the MZM type constructor across all tenfold way classes.} The prefix taxonomy is proposed but not systematically developed. Each symmetry class should yield a specific carrier type and form of the type constructor.
+
+  \item \textbf{Establish or refute the $\hthreeO$\,/\,FWS correspondence.} The convergence on 27 is documented but could be coincidental. Structural analysis mapping each FWS layer to a specific basis element of $\hthreeO$ would confirm or dissolve this connection.
+
+  \item \textbf{Resolve the 6 CLHoTT \texttt{sorry} instances.} The remaining \texttt{sorry} instances (\texttt{Float} ring laws) should be resolved via rational arithmetic or first-principles proofs.
+
+  \item \textbf{Submit the PGTC preprint.} The documented pattern of producing artifacts at high volume while stopping before submission persists. Noted transparently per Glassbox methodology.
+\end{enumerate}
+
+% ════════════════════════════════════════════════════
+%  APPENDICES
+% ════════════════════════════════════════════════════
+
+\appendix
+
+\section{Retraction Record}
+
+This thesis builds on and supersedes the earlier framing ``singularities as type errors,'' which was retracted by the author and documented transparently in the GoS repository archive. The retraction was conducted voluntarily, without external pressure, and is noted here in accordance with Glassbox principles. The current framework treats singularities as phase transitions through higher topos theory rather than as type errors.
+
+\section{Institutional Context}
+
+The \texttt{CLHoTT.lean} file was first compiled on February~13, 2026, at the University of Chicago campus, in proximity to the Seminary Co-op Bookstore. The author holds no degree, appointment, or affiliation with the University of Chicago or any other academic institution. Abraham Adrian Albert (1905--1972), who formalized the exceptional Jordan algebra $\hthreeO$ at the same institution, is the historical figure whose work most directly connects to the algebraic structures in this thesis.
+
+\section{Document Audit Status}
+
+This document should be cross-referenced against the following GoS project documents for consistency:
+
+\begin{description}[style=nextline, leftmargin=1.5em]
+  \item[\textnormal{\textit{PGTC Preprint (REVTeX):}}] Simulation results ($70\%$ phonon suppression, spectral gap ratio $58.8\times$, winding number $w = -1$, $99.7\%$ edge-localized MZMs) cited herein.
+  \item[\textnormal{\textit{FWS Engineering Spec:}}] Currently references pre-correction Penrose vertex lattice design; requires update to honeycomb + Stone--Wales defect geometry.
+  \item[\textnormal{\textit{Topological Invariants as Dependent Types:}}] Retains retracted framing and Mathlib-dependent codebase description; highest priority for revision.
+  \item[\textnormal{\textit{MZM Certification Architecture:}}] Identified as most independently publishable piece; the type constructor framework developed here may inform its next revision.
+\end{description}
+
+\vspace{12pt}
+\hrule
+\vspace{8pt}
+
+\begin{center}
+\small\textit{This is a living document. Epistemic tags will be updated as formal verification, simulation, and peer review progress. The Rung Rule is enforced: no tag will be elevated without compiler verification or convergent empirical evidence. No tag will be modified without documenting the change.}
+\end{center}
+
+\end{document}

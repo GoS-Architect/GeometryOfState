@@ -27,7 +27,7 @@
     topologically protected.
 -/
 
-import GoS.L2_Classification.BivectorDiscrimination
+import BivectorDiscrimination
 
 open Cl2Q
 
